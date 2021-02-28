@@ -2,9 +2,14 @@
 
 El ejercicio consiste en implementar una SPA con React.
 
-## Fecha de entrega
+## Entrega
 
 La fecha de entrega está por decidir.
+
+La entrega consistirá de:
+
+- Un pull request a la rama del alumno que contenga el código de la práctica.
+- El despliegue de la aplicación en S3.
 
 ## Enunciado
 
