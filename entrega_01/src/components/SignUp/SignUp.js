@@ -1,34 +1,88 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {userService} from "../../Utils/user.service";
 
-export default function SignUp() {
-    return(
-        <form>
-            <h3>Sign Up</h3>
+export default class SignUp extends Component {
+    constructor(props) {
+        super(props);
+        userService.logout()
 
-            <div className="form-group">
-                <label>First name</label>
-                <input type="text" className="form-control" placeholder="First name" />
-            </div>
+        this.state = {
+            firstName: '',
+            username: '',
+            password: '',
+            submitted: false,
+            loading: false,
+            error: ''
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
 
-            <div className="form-group">
-                <label>Last name</label>
-                <input type="text" className="form-control" placeholder="Last name" />
-            </div>
+    }
 
-            <div className="form-group">
-                <label>Email address</label>
-                <input type="email" className="form-control" placeholder="Enter email" />
-            </div>
+    handleChange(e) {
+        const {name, value} = e.target;
+        this.setState({[name]: value});
+    }
 
-            <div className="form-group">
-                <label>Password</label>
-                <input type="password" className="form-control" placeholder="Enter password" />
-            </div>
+    handleSubmit(e) {
+        e.preventDefault();
 
-            <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
-            <p className="forgot-password text-right">
-                Already registered <a href="#">sign in?</a>
-            </p>
-        </form>
-    )
+        this.setState({submitted: true});
+        const {firstName, username, password, returnUrl} = this.state;
+
+        // stop here if form is invalid
+        if (!(firstName && username && password)) {
+            return;
+        }
+
+
+        this.setState({loading: true});
+        userService.signUp(firstName, username, password)
+            .then(
+                user => {
+                    const {from} = this.props.location.state || {from: {pathname: "/login"}};
+                    this.props.history.push(from);
+                },
+                error => this.setState({error, loading: false})
+            );
+    }
+
+    render() {
+        const { firstName,username, password, submitted, loading, error } = this.state;
+        return (
+            <form name="form" onSubmit={this.handleSubmit}>
+                <h3>Sign Up</h3>
+
+                <div className="form-group">
+                    <label>First name</label>
+                    <input type="text" className="form-control" name="firstName" value={firstName} onChange={this.handleChange} />
+                    {submitted && !firstName &&
+                    <div className="help-block">firstName is required</div>
+                    }
+                </div>
+                <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
+                    <label htmlFor="username">Username</label>
+                    <input type="text" className="form-control" name="username" value={username} onChange={this.handleChange} />
+                    {submitted && !username &&
+                    <div className="help-block">Username is required</div>
+                    }
+                </div>
+                <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
+                    <label htmlFor="password">Password</label>
+                    <input type="password" className="form-control" name="password" value={password} onChange={this.handleChange} />
+                    {submitted && !password &&
+                    <div className="help-block">Password is required</div>
+                    }
+                </div>
+
+
+
+                <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
+                <p className="forgot-password text-right">
+                    Already registered <a href="/login">sign in?</a>
+                </p>
+            </form>
+
+        )
+    }
 }

@@ -3,47 +3,37 @@ import { Link } from 'react-router-dom';
 
 import { userService } from '../../Utils/user.service';
 
-class Home extends React.Component {
+export default class Home extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            user: {},
-            users: []
+            user: {username:props.username},
+
         };
     }
 
     componentDidMount() {
         this.setState({
-            user: JSON.parse(localStorage.getItem('user')),
-            users: { loading: true }
+            user: '',
+
         });
-        userService.getUser().then(users => this.setState({ users }));
+
+        //userService.getUser().then(users => this.setState({ users }));
     }
 
     render() {
-        const { user, users } = this.state;
+        const { user } = this.state;
         return (
-            <div className="col-md-6 col-md-offset-3">
+            <div >
                 <h1>Hi {user.firstName}!</h1>
                 <p>You're logged in with React & Basic HTTP Authentication!!</p>
-                <h3>Users from secure api end point:</h3>
-                {users.loading && <em>Loading users...</em>}
-                {users.length &&
-                <ul>
-                    {users.map((user, index) =>
-                        <li key={user.id}>
-                            {user.firstName + ' ' + user.lastName}
-                        </li>
-                    )}
-                </ul>
-                }
+
                 <p>
-                    <Link to="/login">Logout</Link>
+                    <Link to="/login" >Logout</Link>
                 </p>
             </div>
         );
     }
 }
 
-export { Home };

@@ -4,6 +4,7 @@ import { authHeader } from '../__helpers/auth-header';
 export const userService = {
     login,
     logout,
+    signUp
 };
 
 function login(username, password) {
@@ -20,22 +21,35 @@ function login(username, password) {
             if (user) {
                 // store user details and basic auth credentials in local storage
                 // to keep user logged in between page refreshes
-                user.authdata = window.btoa(username + ':' + password);
-                localStorage.setItem('user', JSON.stringify(user));
+                console.log(user)
+                localStorage.setItem('token', JSON.stringify( user.sessionToken));
             }
 
             return user;
         });
 }
 
+function signUp(firstName,username, password){
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({firstName,password })
+    };
+    return fetch(`${config.apiUrl}/users/`+username, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            localStorage.setItem('token', JSON.stringify(user.username));
+        });
+}
+
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
 }
 
 
 
-function handleResponse(response) {
+const handleResponse=(response)=> {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
         if (!response.ok) {
