@@ -44,5 +44,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './public/index.html'
         })
-    ]
+    ],
+    externals: {
+        // global app config object
+        config: JSON.stringify({
+            apiUrl: 'https://6fra5t373m.execute-api.eu-west-1.amazonaws.com/development'
+        })
+    }
 };

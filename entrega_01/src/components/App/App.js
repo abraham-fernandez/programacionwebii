@@ -4,8 +4,9 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import Login from "../Login/Login"
+import Home from "../Home/Home"
 import SignUp from "../SignUp/SignUp";
-
+import { PrivateRoute } from '../../Utils/PrivateRoute';
 function App() {
     return (<Router>
             <div className="App">
@@ -28,8 +29,8 @@ function App() {
                 <div className="auth-wrapper">
                     <div className="auth-inner">
                         <Switch>
-                            <Route exact path='/' component={Login} />
-                            <Route path="/sign-in" component={Login} />
+                            <PrivateRoute exact path="/" component={Home} />
+                            <Route path="/login" component={Login} />
                             <Route path="/sign-up" component={SignUp} />
                         </Switch>
                     </div>
