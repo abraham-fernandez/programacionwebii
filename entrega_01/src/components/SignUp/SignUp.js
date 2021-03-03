@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {userService} from "../../Utils/user.service";
-
+import { withSnackbar } from 'notistack';
 export default class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -43,7 +43,10 @@ export default class SignUp extends Component {
                     const {from} = this.props.location.state || {from: {pathname: "/login"}};
                     this.props.history.push(from);
                 },
-                error => this.setState({error, loading: false})
+                error =>{
+                    this.setState({error, loading: false})
+                    this.props.enqueueSnackbar(error,{ variant: 'error',})
+                }
             );
     }
 

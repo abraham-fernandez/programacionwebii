@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-
 import { userService } from '../../Utils/user.service';
+import { withSnackbar } from 'notistack';
 
-export default class Login extends Component {
+ class Login extends Component {
     constructor(props) {
         super(props);
 
@@ -41,12 +41,20 @@ export default class Login extends Component {
         userService.login(username, password)
             .then(
                 user => {
+
                     const { from } = this.props.location.state || { from: { pathname: "/" } };
                     const all={pathname:from.pathname,state:{username}}
+                    this.props.enqueueSnackbar('Login Success.',{ variant: 'success',})
                     this.props.history.push(all);
                 },
-                error => this.setState({ error, loading: false })
+                error => {
+
+                    this.setState({ error, loading: false })
+
+                    this.props.enqueueSnackbar(error,{ variant: 'error',})
+                }
             );
+
     }
     render() {
         const { username, password, submitted, loading, error } = this.state;
@@ -80,3 +88,4 @@ export default class Login extends Component {
         );
     }
 }
+export default withSnackbar(Login);

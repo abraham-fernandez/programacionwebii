@@ -29,9 +29,11 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "config": "^3.3.4",
+    "notistack": "^1.0.5",
     "react-bootstrap-validation": "^0.1.11",
     "react-router-dom": "^5.2.0"
   }

@@ -8,8 +8,8 @@ export default class Home extends React.Component {
         super(props);
 
         this.state = {
-            user: {username:props.location.state.username},
-
+           // user: {username:props.location.state.username},
+            user:'prueba'
         };
     }
 
