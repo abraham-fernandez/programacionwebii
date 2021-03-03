@@ -42,7 +42,8 @@ export default class Login extends Component {
             .then(
                 user => {
                     const { from } = this.props.location.state || { from: { pathname: "/" } };
-                    this.props.history.push(from);
+                    const all={pathname:from.pathname,state:{username}}
+                    this.props.history.push(all);
                 },
                 error => this.setState({ error, loading: false })
             );

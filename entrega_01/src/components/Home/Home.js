@@ -8,16 +8,16 @@ export default class Home extends React.Component {
         super(props);
 
         this.state = {
-            user: {username:props.username},
+            user: {username:props.location.state.username},
 
         };
     }
 
     componentDidMount() {
-        this.setState({
-            user: '',
-
-        });
+        // this.setState({
+        //     user:'',
+        //
+        // });
 
         //userService.getUser().then(users => this.setState({ users }));
     }
@@ -26,7 +26,7 @@ export default class Home extends React.Component {
         const { user } = this.state;
         return (
             <div >
-                <h1>Hi {user.firstName}!</h1>
+                <h1>Hi {user.username}!</h1>
                 <p>You're logged in with React & Basic HTTP Authentication!!</p>
 
                 <p>
