@@ -4,7 +4,8 @@ import { authHeader } from '../__helpers/auth-header';
 export const userService = {
     login,
     logout,
-    signUp
+    signUp,
+    getUser
 };
 
 function login(username, password) {
@@ -21,8 +22,8 @@ function login(username, password) {
             if (user) {
                 // store user details and basic auth credentials in local storage
                 // to keep user logged in between page refreshes
-                console.log(user)
-                localStorage.setItem('token', JSON.stringify( user.sessionToken));
+
+                localStorage.setItem('token',  user.sessionToken);
             }
 
             return user;
@@ -39,13 +40,36 @@ function signUp(firstName,username, password){
     return fetch(`${config.apiUrl}/users/`+username, requestOptions)
         .then(handleResponse)
         .then(user => {
-            localStorage.setItem('token', JSON.stringify(user.username));
+            localStorage.setItem('token', user.sessionToken);
         });
 }
 
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('token');
+}
+
+function getUser(username) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json',"Authorization": localStorage.getItem('token') },
+
+    };
+
+    return fetch(`${config.apiUrl}/users/`+username, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            // login successful if there's a user in the response
+            if (user) {
+                // store user details and basic auth credentials in local storage
+                // to keep user logged in between page refreshes
+
+                return user;
+            }
+
+
+        })
+
 }
 
 
