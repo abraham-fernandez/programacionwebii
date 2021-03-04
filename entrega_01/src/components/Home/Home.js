@@ -7,7 +7,7 @@ export default class Home extends React.Component {
         this.state={
             firstName:''
         }
-        userService.getUser(props.location.state.username).then( user =>
+        userService.getUser('abraham').then( user =>
         {    console.log(user.firstName)
             this.setState({firstName: user.firstName})
 

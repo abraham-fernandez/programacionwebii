@@ -8,7 +8,7 @@ import Home from "../Home/Home"
 import SignUp from "../SignUp/SignUp";
 import { PrivateRoute } from '../../Utils/PrivateRoute';
 import Navbar from "../Navbar/Navbar";
-
+import Tetris from "../Game/Tetris";
 
 class App extends Component  {
     constructor(props) {
@@ -32,6 +32,7 @@ class App extends Component  {
                                 <PrivateRoute exact path="/" component={Home}/>
                                 <Route path="/login" component={Login}/>
                                 <Route path="/sign-up" component={SignUp}/>
+                                <Route path="/tetris" component={Tetris}/>
                             </Switch>
                         </div>
                     </div>

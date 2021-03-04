@@ -4,11 +4,19 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.jsx',
+    entry:{
+        main:'./src/index.jsx',
+        game:'./src/components/Game/game.js'
+    },
     devtool: 'inline-source-map',
     output: {
-        filename: 'main.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
+
+    },
+    devServer:{
+        historyApiFallback:true
     },
     module: {
         rules: [
@@ -34,16 +42,33 @@ module.exports = {
                         presets: ['@babel/preset-env', '@babel/preset-react']
                     }
                 }
-            }
+            },
+            // {
+            //     test: /\.(png|svg|jpe?g|gif)$/,
+            //     include: 'src/components/Game/img',
+            //     use: [
+            //         {
+            //             loader: 'file-loader',
+            //             options: {
+            //                 name: '[name].[ext]',
+            //                 outputPath: 'images/',
+            //                 publicPath: 'images/'
+            //             }
+            //         }
+            //     ]
+            // }
+
 
         ],
 
     },
+
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: './public/index.html'
-        })
+        }),
+
     ],
     externals: {
         // global app config object

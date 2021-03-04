@@ -22,7 +22,7 @@ class Navbar extends Component {
         return (
             <nav className="navbar navbar-expand-lg navbar-light fixed-top">
                 <div className="container">
-                    <Link className="navbar-brand" to={"/sign-in"}>My Page</Link>
+                    <Link className="navbar-brand" to={"/home"}>My Page</Link>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul className="navbar-nav ml-auto">
                             {!this.state.isLoggedin && <li className="nav-item">
@@ -31,7 +31,8 @@ class Navbar extends Component {
                             {!this.state.isLoggedin &&<li className="nav-item">
                                 <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
                             </li>}
-                            {this.state.isLoggedin&&<li><Link onClick={e=>this.logoutHandler(e)} to={"/login"}  >Logout</Link></li>}
+                            {this.state.isLoggedin&&<li><Link className="nav-link" to={"/tetris"}  >Tetris</Link></li>}
+                            {this.state.isLoggedin&&<li><Link className="nav-link" onClick={e=>this.logoutHandler(e)} to={"/login"}  >Logout</Link></li>}
                         </ul>
                     </div>
                 </div>
