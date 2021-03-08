@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+const start=()=>{
     const grid = document.querySelector('.grid')
     let square;
     /*Función para pintar el tablero principal del juego*/
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let current = theTetrominoes[random][currentRotation]
 
     //dibujar el Tetromino
-    function draw() {
+    const draw=()=> {
         current.forEach(index => {
             squares[currentPosition + index].classList.add('tetromino')
             squares[currentPosition + index].style.backgroundColor = colors[random]
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //borrar the Tetromino
-    function undraw() {
+    const undraw=()=>{
         current.forEach(index => {
             squares[currentPosition + index].classList.remove('tetromino')
             squares[currentPosition + index].style.backgroundColor = ''
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //función para mover a la izquierda controlando si es el limite del tablero o si hay otra pieza
-    function moveLeft() {
+    const moveLeft=()=> {
         undraw()
         const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0)
         if (!isAtLeftEdge) currentPosition -= 1
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //función para mover a la izquierda controlando si es el limite del tablero o si hay otra pieza
-    function moveRight() {
+    const moveRight=()=> {
         undraw()
         const isAtRightEdge = current.some(index => (currentPosition + index) % width === width - 1)
         if (!isAtRightEdge) currentPosition += 1
@@ -156,11 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
         draw()
     }
 
-    function isAtRight() {
+    const isAtRight=()=> {
         return current.some(index => (currentPosition + index + 1) % width === 0)
     }
 
-    function isAtLeft() {
+    const isAtLeft=()=> {
         return current.some(index => (currentPosition + index) % width === 0)
     }
 
@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
 
     //mostrar en el tablero pequeño el siguiente tetromino
-    function displayShape() {
+    const displayShape=()=> {
         //remove any trace of a tetromino form the entire grid
         displaySquares.forEach(square => {
             square.classList.remove('tetromino')
@@ -264,4 +264,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-})
+}
+export default start

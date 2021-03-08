@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import './Tetris.css'
-
+import Game from './game.js'
 class Tetris extends Component {
 
     constructor(props) {
@@ -11,19 +11,9 @@ class Tetris extends Component {
     }
 
 
-    componentWillMount() {
+    componentDidMount() {
 
-
-        document.addEventListener('DOMContentLoaded', function(event) {
-            this.script = document.createElement("script");
-            this.script.src = "./game.js";
-            this.script.async = true;
-
-            document.body.appendChild(this.script);
-        });
-        this.setState( {reload:true})
-
-
+        Game();
     }
 
 
