@@ -1,30 +1,28 @@
 import React from 'react';
-import { userService } from '../../Utils/user.service';
+import {userService} from '../../Utils/user.service';
 
 export default class Home extends React.Component {
     constructor(props) {
         super(props);
-        this.state={
-            firstName:''
+        this.state = {
+            firstName: '',
+            username: localStorage.getItem('username')
         }
-        userService.getUser('abraham').then( user =>
-        {    console.log(user.firstName)
-            this.setState({firstName: user.firstName})
+        userService.getUser(this.state.username).then(
+            user => {
+                this.setState({firstName: user.firstName})
 
-        })
+            },error => {
 
-
+                this.props.enqueueSnackbar(error, {variant: 'error',})
+            })
 
     }
 
-
-
     render() {
-
         return (
-            <div >
+            <div>
                 <h1>Hi {this.state.firstName}!</h1>
-
             </div>
         );
     }

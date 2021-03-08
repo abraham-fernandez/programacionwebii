@@ -16,6 +16,7 @@ import { withSnackbar } from 'notistack';
             error: ''
         };
 
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -44,14 +45,15 @@ import { withSnackbar } from 'notistack';
 
                     const { from } = this.props.location.state || { from: { pathname: "/" } };
                     const all={pathname:from.pathname,state:{username}}
-                    this.props.enqueueSnackbar('Login Success.',{ variant: 'success',})
+                    this.props.enqueueSnackbar('Login correcto.',{ variant: 'success',})
+                    this.props.isLoggedin(true)
                     this.props.history.push(all);
                 },
                 error => {
 
                     this.setState({ error, loading: false })
 
-                    this.props.enqueueSnackbar(error,{ variant: 'error',})
+                    this.props.enqueueSnackbar("Oops!! Algo ha salido mal, intentalo de nuevo",{ variant: 'error',})
                 }
             );
 
@@ -80,9 +82,7 @@ import { withSnackbar } from 'notistack';
                         <button className="btn btn-primary" disabled={loading}>Login</button>
 
                     </div>
-                    {error &&
-                    <div className={'alert alert-danger'}>{error}</div>
-                    }
+
                 </form>
 
         );

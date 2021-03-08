@@ -24,6 +24,8 @@ function login(username, password) {
                 // to keep user logged in between page refreshes
 
                 localStorage.setItem('token',  user.sessionToken);
+                localStorage.setItem('username',  username);
+
             }
 
             return user;
@@ -47,6 +49,7 @@ function signUp(firstName,username, password){
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
 }
 
 function getUser(username) {

@@ -2,17 +2,29 @@ import React,{Component} from "react";
 import './Tetris.css'
 
 class Tetris extends Component {
-    constructor() {
-        super();
-        document.addEventListener('DOMContentLoaded', function(event) {
-            const script = document.createElement("script");
-            script.src = "./game.js";
-            script.async = true;
 
-            document.body.appendChild(script);
-        });
+    constructor(props) {
+        super(props);
+        this.state={
+            reload:false
+        }
     }
 
+
+    componentWillMount() {
+
+
+        document.addEventListener('DOMContentLoaded', function(event) {
+            this.script = document.createElement("script");
+            this.script.src = "./game.js";
+            this.script.async = true;
+
+            document.body.appendChild(this.script);
+        });
+        this.setState( {reload:true})
+
+
+    }
 
 
     render(){

@@ -17,20 +17,24 @@ class App extends Component  {
         this.state = {
             isAuthenticated:localStorage.getItem('token')?true:false
         };
-
-
     }
+    handleChangeState(flag){
+        this.setState({isAuthenticated:flag})
+    }
+
 
     render() {
         return (<Router>
                 <div className="App">
-                    <Navbar isLoggedin={this.state.isAuthenticated}/>
+                    <Navbar isLoggedin={this.state.isAuthenticated} changeLoginState={this.handleChangeState.bind(this)}/>
 
                     <div className="auth-wrapper">
                         <div className="auth-inner">
                             <Switch>
                                 <PrivateRoute exact path="/" component={Home}/>
-                                <Route path="/login" component={Login}/>
+                                <Route path="/login" render={(props) =>
+                                    <Login  {...props} isLoggedin={this.handleChangeState.bind(this)}/>
+                                }/>
                                 <Route path="/sign-up" component={SignUp}/>
                                 <Route path="/tetris" component={Tetris}/>
                             </Switch>

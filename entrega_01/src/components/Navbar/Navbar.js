@@ -14,25 +14,26 @@ class Navbar extends Component {
     }
     logoutHandler() {
         userService.logout();
-         this.setState({ isLoggedin: false}
-         );
+        this.props.changeLoginState(false)
+         // this.setState({ isLoggedin: false}
+         // );
 
     }
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-light fixed-top">
                 <div className="container">
-                    <Link className="navbar-brand" to={"/home"}>My Page</Link>
+                    <Link className="navbar-brand" to={"/"}>My Page</Link>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul className="navbar-nav ml-auto">
-                            {!this.state.isLoggedin && <li className="nav-item">
+                            {!this.props.isLoggedin && <li className="nav-item">
                                 <Link className="nav-link" to={"/sign-in"}>Login</Link>
                             </li>}
-                            {!this.state.isLoggedin &&<li className="nav-item">
+                            {!this.props.isLoggedin &&<li className="nav-item">
                                 <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
                             </li>}
-                            {this.state.isLoggedin&&<li><Link className="nav-link" to={"/tetris"}  >Tetris</Link></li>}
-                            {this.state.isLoggedin&&<li><Link className="nav-link" onClick={e=>this.logoutHandler(e)} to={"/login"}  >Logout</Link></li>}
+                            {this.props.isLoggedin&&<li><Link className="nav-link" to={"/tetris"}  >Tetris</Link></li>}
+                            {this.props.isLoggedin&&<li><Link className="nav-link" onClick={e=>this.logoutHandler(e)} to={"/login"}  >Logout</Link></li>}
                         </ul>
                     </div>
                 </div>
