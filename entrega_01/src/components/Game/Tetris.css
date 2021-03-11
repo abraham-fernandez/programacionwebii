@@ -1,18 +1,18 @@
 #container {
     display: flex;
     position: fixed;
-
-    margin-top: -150px;
+    margin-left: -28px;
+    margin-top: 7px;
 
 
 }
 .logo{
-    /*background-image: url("./img/Tetris_logo.png");*/
+    background-image: url("./img/Tetris_logo.png");
     background-size: cover;
     background-repeat:no-repeat;
     background-position: center;
-    height: 200px;
-    width: 500px;
+    height: 100px;
+    width: 300px;
     margin-left: auto;
     margin-right: auto;
 
@@ -20,9 +20,9 @@
 
 .fondo{
     padding:20px;
-    width: 200px;
-    height: 400px;
-    /*background-image: url("./img/fondo.jpg");*/
+    width: 240px;
+    height: 443px;
+    background-image: url("./img/fondo.jpg");
     background-size: cover;
     background-repeat:no-repeat;
 }
@@ -59,9 +59,9 @@
 .mini-grid-cont{
     padding: 20px;
     margin-left: 50px;
-    height: 80px;
-    width:80px;
-    /*background-image: url("./img/mini-cuadro.jpg");*/
+    height: 120px;
+    width:120px;
+    background-image: url("./img/mini-cuadro.jpg");
     background-size: cover;
     background-repeat:no-repeat;
 

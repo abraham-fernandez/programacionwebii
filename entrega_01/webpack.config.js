@@ -4,13 +4,10 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry:{
-        main:'./src/index.jsx',
-        game:'./src/components/Game/game.js'
-    },
+    entry:'./src/index.jsx',
     devtool: 'inline-source-map',
     output: {
-        filename: '[name].js',
+        filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
 
@@ -43,20 +40,10 @@ module.exports = {
                     }
                 }
             },
-            // {
-            //     test: /\.(png|svg|jpe?g|gif)$/,
-            //     include: 'src/components/Game/img',
-            //     use: [
-            //         {
-            //             loader: 'file-loader',
-            //             options: {
-            //                 name: '[name].[ext]',
-            //                 outputPath: 'images/',
-            //                 publicPath: 'images/'
-            //             }
-            //         }
-            //     ]
-            // }
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
+            },
 
 
         ],

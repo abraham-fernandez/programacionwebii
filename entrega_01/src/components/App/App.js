@@ -36,7 +36,7 @@ class App extends Component  {
                                     <Login  {...props} isLoggedin={this.handleChangeState.bind(this)}/>
                                 }/>
                                 <Route path="/sign-up" component={SignUp}/>
-                                <Route path="/tetris" component={Tetris}/>
+                                <PrivateRoute path="/tetris" component={Tetris}/>
                             </Switch>
                         </div>
                     </div>
