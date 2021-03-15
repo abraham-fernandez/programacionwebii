@@ -47,9 +47,20 @@ function signUp(firstName,username, password){
 }
 
 function logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
+    const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json',"Authorization": localStorage.getItem('token') },
+
+    };
+    if (localStorage.getItem('token'))
+        return fetch(`${config.apiUrl}/sessions/`+localStorage.getItem('token'), requestOptions)
+            .then(handleResponse)
+            .then(resp => {
+                    // remove user from local storage to log user out
+                     localStorage.removeItem('token');
+                     localStorage.removeItem('username');
+            })
+
 }
 
 function getUser(username) {
