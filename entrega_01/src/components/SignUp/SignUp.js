@@ -41,7 +41,9 @@ export default class SignUp extends Component {
             .then(
                 user => {
                     const {from} = this.props.location.state || {from: {pathname: "/login"}};
+                    this.props.enqueueSnackbar('Registro correcto.',{ variant: 'success',})
                     this.props.history.push(from);
+
                 },
                 error =>{
                     this.setState({error, loading: false})

@@ -27,7 +27,7 @@ class Navbar extends Component {
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul className="navbar-nav ml-auto">
                             {!this.props.isLoggedin && <li className="nav-item">
-                                <Link className="nav-link" to={"/sign-in"}>Login</Link>
+                                <Link className="nav-link" to={"/login"}>Login</Link>
                             </li>}
                             {!this.props.isLoggedin &&<li className="nav-item">
                                 <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
