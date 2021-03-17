@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {userService} from "../../Utils/user.service";
 import { withSnackbar } from 'notistack';
-export default class SignUp extends Component {
+ class SignUp extends Component {
     constructor(props) {
         super(props);
         userService.logout()
@@ -91,3 +91,4 @@ export default class SignUp extends Component {
         )
     }
 }
+export default withSnackbar(SignUp);

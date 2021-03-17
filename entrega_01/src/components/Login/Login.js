@@ -53,7 +53,7 @@ import { withSnackbar } from 'notistack';
 
                     this.setState({ error, loading: false })
 
-                    this.props.enqueueSnackbar("Oops!! Algo ha salido mal, intentalo de nuevo",{ variant: 'error',})
+                    this.props.enqueueSnackbar(error,{ variant: 'error',})
                 }
             );
 

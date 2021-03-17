@@ -98,6 +98,8 @@ const handleResponse=(response)=> {
                 // auto logout if 401 response returned from api
                 logout();
                 location.reload(true);
+            }else if(response.status===500){
+                data.details="Error en el servidor";
             }
 
             const error = (data && data.details) || response.statusText;
