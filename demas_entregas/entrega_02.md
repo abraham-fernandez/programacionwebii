@@ -10,9 +10,9 @@ La entrega consistirá de:
 - El despliegue de la SPA en S3.
 - El despliegue del servidor en cualquier infraestructura.
 
-El pull request debe hacerse antes de [`21-04-05T18:20:00+02:00`](https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations).
+El pull request debe hacerse antes de [`21-04-12T18:20:00+02:00`](https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations).
 
-El despliegue de la aplicación debe hacerse antes de [`21-03-20T21:00:00+02:00`](https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations).
+El despliegue de la aplicación debe hacerse antes de [`21-04-11T21:00:00+02:00`](https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations).
 
 ## Enunciado
 
