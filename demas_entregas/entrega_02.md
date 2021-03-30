@@ -38,8 +38,9 @@ Desarrolla la aplicación disponible en la carpeta `services/web` e intégrala c
 
 Para implementar el ejercicio pueden utilizarse únicamente las siguientes librerías externas:
 
-- En `services/web`: las ya instaladas.
-- En `services/stats_server`: [graphql-yoga](https://github.com/prisma-labs/graphql-yoga).
+- Las ya instaladas en el `package.json`.
+- [graphql-yoga](https://github.com/prisma-labs/graphql-yoga).
+- [uuid](https://www.npmjs.com/package/uuid).
 
 En caso de necesitar alguna otra librería externa, consulta al profesor.
 
