@@ -41,6 +41,7 @@ Para implementar el ejercicio pueden utilizarse únicamente las siguientes libre
 - Las ya instaladas en el `package.json`.
 - [graphql-yoga](https://github.com/prisma-labs/graphql-yoga).
 - [uuid](https://www.npmjs.com/package/uuid).
+- [node-fetch](https://www.npmjs.com/package/node-fetch).
 
 En caso de necesitar alguna otra librería externa, consulta al profesor.
 
