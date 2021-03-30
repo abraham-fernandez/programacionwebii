@@ -16,6 +16,8 @@ El despliegue de la aplicación debe hacerse antes de [`21-04-11T21:00:00+02:00`
 
 ## Enunciado
 
+Elige un videojuego. Implementarlo no es parte de esta entrega, pero algunos elementos del ejercicio están relacionados con él. Escribe un mensaje en [el foro](https://campus.uneatlantico.es/mod/forum/discuss.php?d=23452#p49722) mencionando el juego elegido. Dos alumnos no pueden elegir el mismo videojuego. No puede elegirse el [tres en línea](https://es.wikipedia.org/wiki/Tres_en_l%C3%ADnea).
+
 Implementa, utilizando GQL, un servidor que cumpla los siguientes requisitos:
 
 1. El servidor debe ser capaz de gestionar datos sobre partidas de un determinado videojuego. Estos datos deben contener, al menos, el [estado](<https://en.wikipedia.org/wiki/State_(computer_science)#Program_state>) de la partida.
