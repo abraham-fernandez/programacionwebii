@@ -4,6 +4,7 @@ import AuthContext from "../AuthContext.js";
 import Stats from "./Stats.jsx";
 import Play from "./Play.jsx";
 import History from "./History.jsx";
+import styles from './menu.css'
 
 const Menu = () => {
   const { isLoggedIn, user } = useContext(AuthContext);

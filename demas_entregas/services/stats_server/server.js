@@ -1,6 +1,6 @@
 const { GraphQLServer } = require("graphql-yoga");
 const fetch = require("node-fetch");
-
+const { v4: uuidv4 } = require('uuid');
 const fetchJson = (...args) => fetch(...args).then(response => response.json());
 
 const typeDefs = `
@@ -33,10 +33,7 @@ const resolvers = {
         createStat: (_, args) => {
             config.method="PUT"
             config.body=JSON.stringify({player:args.player,gameScore:args.gameScore})
-
-            return fetchJson(`${BASE_URL}/pairs/`+'99a694cc-74ba-46ec-bd55-a893f6a9c8fb',config)
-
-
+            return fetchJson(`${BASE_URL}/pairs/`+uuidv4(),config)
         }
     },
     Stat:{
