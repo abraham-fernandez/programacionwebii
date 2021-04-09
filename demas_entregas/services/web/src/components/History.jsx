@@ -30,10 +30,10 @@ const History = () => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 query: `query{
-                               pairs{
+                               pair(key:"${user.name}"){
                                   value{
-                                      player,
-                                     gameScore
+                                      estado,
+                                      gameScore
                                   }
                                }
                            }`
@@ -42,12 +42,12 @@ const History = () => {
             .then(res => res.json())
             .then(res => {
 
-                listItems = Object.values(res.data.pairs).sort((a, b) => b.value.gameScore - a.value.gameScore);
+                listItems = Object.values(res.data.pair.value).sort((a, b) => b.gameScore - a.gameScore);
                 //valor cada uno entre maximo
-                let max = listItems[0].value.gameScore
-                listItems.map(e => e.value.percentage =( e.value.gameScore / max) * 100)
-               console.log(listItems)
-                setStats(listItems.map((e,idx)=> <ProgressBar key={idx} bgcolor={mdColors[idx]} player={e.value.player} score={e.value.gameScore} completed={e.value.percentage} />))
+                let max = listItems[0].gameScore
+                listItems.map(e => e.percentage =( e.gameScore / max) * 100)
+
+                setStats(listItems.map((e,idx)=> <ProgressBar key={idx} bgcolor={mdColors[idx]} estado={e.estado} score={e.gameScore} completed={e.percentage} />))
             });
 
     }

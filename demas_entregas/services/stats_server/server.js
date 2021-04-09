@@ -5,19 +5,20 @@ const fetchJson = (...args) => fetch(...args).then(response => response.json());
 
 const typeDefs = `
     type Query {
-        pair(key:ID!):Pair,
+        pair(key:ID!, status:String):Pair,
         pairs: [Pair]
     }
     type Mutation {
         createStat(player:String!,gameScore:Int!) : Stat!
     }
     type Pair {  
-        key:ID,
+        key:ID,       
         applicationId:String,
-        value: Stat
+        value: [Stat]
     }
+    
     type Stat{            
-         player:String,
+         estado:String,
          gameScore:Int
     }
 `;
@@ -26,10 +27,17 @@ const BASE_URL = "https://0qh9zi3q9g.execute-api.eu-west-1.amazonaws.com/develop
 const config = {method: "GET", headers: {"x-application-id": "abraham.fernandez"}}
 const resolvers = {
     Query: {
-        pair: (_, {key}) => {
+        //estadisticas por jugador
+        pair: (_, {key,status}) => {
             config.method = "GET";
-            return fetchJson(`${BASE_URL}/pairs/${key}/`, config)
+            delete config.body;
+            return fetchJson(`${BASE_URL}/pairs/${key}/`, config).then(res => ({
+                key: res.key,
+                applicationId: res.applicationId,
+                value: status ? JSON.parse(res.value).filter(stat=>stat.estado===status) :JSON.parse(res.value)
+            }))
         },
+        //todas las estadisticas
         pairs: (_,) => {
             config.method = "GET";
             return fetchJson(`${BASE_URL}/pairs/`, config)
@@ -40,9 +48,9 @@ const resolvers = {
             //obtener partidas anteriores
             fetchJson(`${BASE_URL}/pairs/${args.player}/`, config).then(r => {
                 let partidas = [];
-                partidas=JSON.parse(r.value);
+                partidas = JSON.parse(r.value);
                 config.method = "PUT";
-                const newPartida={player: args.player, gameScore: args.gameScore}
+                const newPartida = {player: args.player, gameScore: args.gameScore}
                 partidas.push(newPartida);
                 config.body = JSON.stringify(partidas);
                 fetchJson(`${BASE_URL}/pairs/${args.player}`, config);
@@ -52,8 +60,8 @@ const resolvers = {
 
     },
     Stat: {
-        player: stat => JSON.parse(stat).player,
-        gameScore: stat => JSON.parse(stat).gameScore,
+        estado: stat => stat.estado,
+        gameScore: stat => stat.gameScore
     }
 }
 

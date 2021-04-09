@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
 const ProgressBar = (props) => {
-    const { bgcolor, completed,player,score } = props;
+    const { bgcolor, completed,estado,score } = props;
 
     const containerStyles = {
         height: 20,
@@ -33,7 +33,7 @@ const ProgressBar = (props) => {
         <div style={containerStyles}>
 
             <div style={fillerStyles}>
-                <label style={label}> {`${player}`}</label>
+                <span style={labelStyles}>{`${estado}`}</span>
               <span style={labelStyles}>{`${score}`}</span>
             </div>
         </div>
