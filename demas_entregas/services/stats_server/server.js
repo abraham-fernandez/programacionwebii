@@ -9,7 +9,7 @@ const typeDefs = `
         pairs(status:String): [Stat]
     }
     type Mutation {
-        createStat(player:String!,gameScore:Int!) : Stat!
+        createStat(player:String!,estado:String!,gameScore:Int!) : Stat!
     }
     type Pair {  
         key:ID,       
@@ -55,13 +55,16 @@ const resolvers = {
             //obtener partidas anteriores
             fetchJson(`${BASE_URL}/pairs/${args.player}/`, config).then(r => {
                 let partidas = [];
-                partidas = JSON.parse(r.value);
+                if(r.value)
+                     partidas = JSON.parse(r.value);
                 config.method = "PUT";
-                const newPartida = {player: args.player, gameScore: args.gameScore}
+                const newPartida = {player: args.player,estado:args.estado ,gameScore: args.gameScore}
                 partidas.push(newPartida);
+
                 config.body = JSON.stringify(partidas);
+
                 fetchJson(`${BASE_URL}/pairs/${args.player}`, config);
-                return JSON.stringify(newPartida);
+                return newPartida;
             })
 
 

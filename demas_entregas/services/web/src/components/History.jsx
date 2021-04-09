@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import AuthContext from "../AuthContext.js";
 import styles from "./history.css";
-import ProgressBar from "./StatsBar";
+import ProgressBar from "./StatsBar.jsx";
 
 const History = () => {
     const {user} = useContext(AuthContext);
@@ -32,6 +32,7 @@ const History = () => {
                 query: `query{
                                pair(key:"${user.name}"){
                                   value{
+                                      player,
                                       estado,
                                       gameScore
                                   }
@@ -47,7 +48,7 @@ const History = () => {
                 let max = listItems[0].gameScore
                 listItems.map(e => e.percentage =( e.gameScore / max) * 100)
 
-                setStats(listItems.map((e,idx)=> <ProgressBar key={idx} bgcolor={mdColors[idx]} estado={e.estado} score={e.gameScore} completed={e.percentage} />))
+                setStats(listItems.map((e,idx)=> <ProgressBar key={idx} bgcolor={mdColors[idx]} player={e.player} estado={e.estado} score={e.gameScore} completed={e.percentage} />))
             });
 
     }

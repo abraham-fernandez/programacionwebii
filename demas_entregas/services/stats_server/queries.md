@@ -53,6 +53,6 @@ query{
 
 ```graphql
 mutation{
-    createStat(player:"nuevo.jugador",gameScore:9500)
+    createStat(player:"nuevo.jugador",estado:"terminada",gameScore:9500)
 }
 ```
