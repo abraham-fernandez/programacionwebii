@@ -1,6 +1,6 @@
-const { GraphQLServer } = require("graphql-yoga");
+const {GraphQLServer} = require("graphql-yoga");
 const fetch = require("node-fetch");
-const { v4: uuidv4 } = require('uuid');
+const {v4: uuidv4} = require('uuid');
 const fetchJson = (...args) => fetch(...args).then(response => response.json());
 
 const typeDefs = `
@@ -23,29 +23,42 @@ const typeDefs = `
 `;
 
 const BASE_URL = "https://0qh9zi3q9g.execute-api.eu-west-1.amazonaws.com/development";
-const config={method:"GET",headers:{"x-application-id":"abraham.fernandez"}}
+const config = {method: "GET", headers: {"x-application-id": "abraham.fernandez"}}
 const resolvers = {
     Query: {
-        pair: (_, {key}) =>{ config.method="GET"; return fetchJson(`${BASE_URL}/pairs/${key}/`,config)},
-        pairs: (_,) =>{ config.method="GET"; return fetchJson(`${BASE_URL}/pairs/`,config)},
+        pair: (_, {key}) => {
+            config.method = "GET";
+            return fetchJson(`${BASE_URL}/pairs/${key}/`, config)
+        },
+        pairs: (_,) => {
+            config.method = "GET";
+            return fetchJson(`${BASE_URL}/pairs/`, config)
+        },
     },
     Mutation: {
-        createStat: (_, args) => {
-            config.method="PUT"
-            config.body=JSON.stringify({player:args.player,gameScore:args.gameScore})
-            return fetchJson(`${BASE_URL}/pairs/`+uuidv4(),config)
-        }
+        createStat: (_, args) =>
+            //obtener partidas anteriores
+            fetchJson(`${BASE_URL}/pairs/${args.player}/`, config).then(r => {
+                let partidas = [];
+                partidas=JSON.parse(r.value);
+                config.method = "PUT";
+                const newPartida={player: args.player, gameScore: args.gameScore}
+                partidas.push(newPartida);
+                config.body = JSON.stringify(partidas);
+                fetchJson(`${BASE_URL}/pairs/${args.player}`, config);
+                return JSON.stringify(newPartida);
+            })
+
+
     },
-    Stat:{
-        player:stat=>JSON.parse(stat).player,
-        gameScore:stat=>JSON.parse(stat).gameScore,
+    Stat: {
+        player: stat => JSON.parse(stat).player,
+        gameScore: stat => JSON.parse(stat).gameScore,
     }
 }
 
 
-
-
-const server = new GraphQLServer({ typeDefs, resolvers });
+const server = new GraphQLServer({typeDefs, resolvers});
 
 server.start({
     playground: "/",
