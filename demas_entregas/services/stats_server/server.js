@@ -6,7 +6,7 @@ const fetchJson = (...args) => fetch(...args).then(response => response.json());
 const typeDefs = `
     type Query {
         pair(key:ID!, status:String):Pair,
-        pairs: [Pair]
+        pairs(status:String): [Stat]
     }
     type Mutation {
         createStat(player:String!,gameScore:Int!) : Stat!
@@ -17,14 +17,16 @@ const typeDefs = `
         value: [Stat]
     }
     
-    type Stat{            
-         estado:String,
-         gameScore:Int
+    type Stat{
+        id: ID,
+        player:String            
+        estado:String,
+        gameScore:Int
     }
 `;
 
 const BASE_URL = "https://0qh9zi3q9g.execute-api.eu-west-1.amazonaws.com/development";
-const config = {method: "GET", headers: {"x-application-id": "abraham.fernandez"}}
+const config = {method: "GET", headers: {"x-application-id": "abraham.fernandez.dev"}}
 const resolvers = {
     Query: {
         //estadisticas por jugador
@@ -38,9 +40,14 @@ const resolvers = {
             }))
         },
         //todas las estadisticas
-        pairs: (_,) => {
+        pairs: (_,{status}) => {
             config.method = "GET";
-            return fetchJson(`${BASE_URL}/pairs/`, config)
+            delete config.body;
+            return fetchJson(`${BASE_URL}/pairs/`, config).then(res => (
+
+            status ?  res.map(stat => JSON.parse(stat.value).filter((s)=>s.estado === status)).flat() :
+                res.map(stat => JSON.parse(stat.value).map((s)=>s)).flat()
+        ))
         },
     },
     Mutation: {
@@ -60,6 +67,8 @@ const resolvers = {
 
     },
     Stat: {
+        id: stat => stat.id,
+        player: stat => stat.player,
         estado: stat => stat.estado,
         gameScore: stat => stat.gameScore
     }
