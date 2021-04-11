@@ -1,6 +1,6 @@
-import React, {useContext, useState,useEffect} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import AuthContext from "../AuthContext";
-
+import styles from './Play.css'
 const Play = () => {
     const {user} = useContext(AuthContext);
     const [stat, setStat] = useState([])
@@ -24,13 +24,24 @@ const Play = () => {
             .then(res => {
                 let data = res.data.createStat
 
-                setStat([<div><label>Estado</label><p>{data.estado}</p><label>Puntacion</label><p>{data.gameScore}</p></div>])
+                //setStat([<div><label>Estado</label><p>{data.estado}</p><label>Puntacion</label><p>{data.gameScore}</p></div>])
+                setStat(<div className={styles.price_cards}>
+                            <div className={styles.card_1}>
+                                <h1 className={styles.title}>{user.name}</h1>
+                                <section>
+                                    <ul>
+                                        <li><label>Puntuacion</label><strong>{data.gameScore} </strong></li>
+                                        <li><label>Estado</label><strong> {data.estado}</strong></li>
+                                    </ul>
+                                </section>
+                            </div>
+                        </div>)
             })
     }
 
 
     useEffect(() => {
-      newGame();
+        newGame();
     }, [])
 
 
