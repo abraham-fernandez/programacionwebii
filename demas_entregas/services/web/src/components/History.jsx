@@ -1,6 +1,5 @@
 import React, {useContext, useState} from "react";
 import AuthContext from "../AuthContext.js";
-import styles from "./history.css";
 import ProgressBar from "./StatsBar.jsx";
 import {Link, useRouteMatch} from "react-router-dom";
 
@@ -173,11 +172,19 @@ const History = () => {
     getItems()
 
 
+
     return (
         <>
-            <h1>Estadísticas</h1>
-            {stats}
+            <div className="container">
+                <h1>
+                    {user.name}’s stats
+                </h1>
+                <div>
+                    {stats}
+                </div>
+            </div>
         </>
+
     )
 
 };

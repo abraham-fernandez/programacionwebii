@@ -143,7 +143,17 @@ const Stats = () => {
     getItems()
 
    // return <p>{user.name}’s stats</p>;
-  return (<>{stats}</>)
+  return (
+      <>
+        <div className="container">
+          <h1>
+            Stats
+          </h1>
+          <div>
+            {stats}
+          </div>
+        </div>
+      </>)
 
 
 };

@@ -1,9 +1,8 @@
 import React, {useState, useContext} from "react";
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import PropTypes from "prop-types";
 import TextInput from "./TextInput.jsx";
 import AuthContext from "../AuthContext.js";
-import styles from './SignIn.css';
 
 const SignIn = ({returnTo}) => {
     const {logIn, isLoggedIn} = useContext(AuthContext);
@@ -24,19 +23,25 @@ const SignIn = ({returnTo}) => {
 
     return (
         <>
-            <div className={styles.login}>
-              <h1>Sign In</h1>
-                <form onSubmit={handleSubmit}>
-                    <TextInput
-                        placeholder="Name"
-                        name="name"
-                        value={formValues.name}
-                        onChange={handleInputChange}
-                    />
-                    <input type="submit"/>
-                </form>
+            <div className="container">
+                <div className="card">
+                    <div className="card__header">
+                        <h1>Sign In</h1>
+                        <div className="center">
+                            <form onSubmit={handleSubmit}>
+                                <TextInput
+                                    placeholder="Name"
+                                    name="name"
+                                    value={formValues.name}
+                                    onChange={handleInputChange}
+                                    className="form-control"
+                                />
+                                <button type="submit" className="card__header-button">INICIAR SESIÓN</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </>
     );
 };
