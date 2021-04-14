@@ -2,9 +2,12 @@ import React, {useContext, useState} from "react";
 import AuthContext from "../AuthContext.js";
 import styles from "./history.css";
 import ProgressBar from "./StatsBar.jsx";
+import {Link, useRouteMatch} from "react-router-dom";
 
 const History = () => {
     const {user} = useContext(AuthContext);
+
+    const { path, url } = useRouteMatch();
     const mdColors = [
         '#F44336',
         '#F06292',
@@ -113,6 +116,29 @@ const History = () => {
 
     const [stats, setStats] = useState([])
 
+    const changeState=(game)=>{
+
+        sessionStorage.setItem("state","ocupado")
+        sessionStorage.setItem("game",JSON.stringify(game))
+        fetch('http://localhost:3000', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                query: `mutation{
+                      changeState(id:"${game.id}",estado:"ocupada",player:"${game.player}"){
+                        player,
+                        estado,
+                        gameScore
+                      }
+                               
+                }`
+            }),
+        })
+            .then(res => res.json())
+
+
+    }
+
     const getItems = () => {
         let listItems = []
         fetch('http://localhost:3000', {
@@ -122,6 +148,7 @@ const History = () => {
                 query: `query{
                                pair(key:"${user.name}"){
                                   value{
+                                      id,
                                       player,
                                       estado,
                                       gameScore
@@ -138,7 +165,8 @@ const History = () => {
                 let max = listItems[0].gameScore
                 listItems.map(e => e.percentage =( e.gameScore / max) * 100)
 
-                setStats(listItems.map((e,idx)=> <ProgressBar key={idx} bgcolor={mdColors[idx]} player={e.player} estado={e.estado} score={e.gameScore} completed={e.percentage} />))
+                setStats(listItems.map((e,idx)=>
+                    <Link to={'/game/play'} onClick={()=>changeState(e)} ><ProgressBar key={idx} bgcolor={mdColors[idx]} player={e.player} estado={e.estado} score={e.gameScore} completed={e.percentage} /></Link>))
             });
 
     }

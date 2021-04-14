@@ -9,7 +9,8 @@ const typeDefs = `
         pairs(status:String): [Stat]
     }
     type Mutation {
-        createStat(player:String!,estado:String!,gameScore:Int!) : Stat!
+        createStat(player:String!,estado:String!,gameScore:Int!) : Stat!,
+        changeState(id:ID,estado:String!,player:String!) :Stat!
     }
     type Pair {  
         key:ID,       
@@ -30,24 +31,24 @@ const config = {method: "GET", headers: {"x-application-id": "abraham.fernandez.
 const resolvers = {
     Query: {
         //estadisticas por jugador
-        pair: (_, {key,status}) => {
+        pair: (_, {key, status}) => {
             config.method = "GET";
             delete config.body;
             return fetchJson(`${BASE_URL}/pairs/${key}/`, config).then(res => ({
                 key: res.key,
                 applicationId: res.applicationId,
-                value: status ? JSON.parse(res.value).filter(stat=>stat.estado===status) :JSON.parse(res.value)
+                value: status ? JSON.parse(res.value).filter(stat => stat.estado === status) : JSON.parse(res.value)
             }))
         },
         //todas las estadisticas
-        pairs: (_,{status}) => {
+        pairs: (_, {status}) => {
             config.method = "GET";
             delete config.body;
             return fetchJson(`${BASE_URL}/pairs/`, config).then(res => (
 
-            status ?  res.map(stat => JSON.parse(stat.value).filter((s)=>s.estado === status)).flat() :
-                res.map(stat => JSON.parse(stat.value).map((s)=>s)).flat()
-        ))
+                status ? res.map(stat => JSON.parse(stat.value).filter((s) => s.estado === status)).flat() :
+                    res.map(stat => JSON.parse(stat.value).map((s) => s)).flat()
+            ))
         },
     },
     Mutation: {
@@ -55,17 +56,44 @@ const resolvers = {
             //obtener partidas anteriores
             fetchJson(`${BASE_URL}/pairs/${args.player}/`, config).then(r => {
                 let partidas = [];
-                if(r.value)
-                     partidas = JSON.parse(r.value);
+                if (r.value!=="{\n    \n}")
+                    partidas = JSON.parse(r.value);
+
                 config.method = "PUT";
-                const newPartida = {player: args.player,estado:args.estado ,gameScore: args.gameScore}
+                const newPartida = {
+                    id: uuidv4(),
+                    player: args.player,
+                    estado: args.estado,
+                    gameScore: args.gameScore
+                }
+
                 partidas.push(newPartida);
+
 
                 config.body = JSON.stringify(partidas);
 
                 fetchJson(`${BASE_URL}/pairs/${args.player}`, config);
                 return newPartida;
-            })
+
+            }),
+        changeState: (_, args) => {
+            config.method = "GET";
+            delete  config.body
+           return fetchJson(`${BASE_URL}/pairs/${args.player}/`, config).then(r => {
+                let partidas = [];
+                if (r.value) {
+                    partidas = JSON.parse(r.value)
+                    partidas.find(partida => partida.id == args.id).estado = args.estado
+
+                    config.method = "PUT";
+                    config.body = JSON.stringify(partidas)
+                    fetchJson(`${BASE_URL}/pairs/${args.player}`, config);
+
+                    return partidas.find(partida => partida.id == args.id)
+                }
+            });
+
+        }
 
 
     },

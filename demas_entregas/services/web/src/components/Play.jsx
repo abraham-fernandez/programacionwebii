@@ -7,11 +7,27 @@ const Play = () => {
 
     const newGame = () => {
 
-        fetch('http://localhost:3000', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                query: `mutation{
+        if(sessionStorage.getItem("state")){
+            let data=JSON.parse(sessionStorage.getItem("game"))
+            setStat(<div className={styles.price_cards}>
+                <div className={styles.card_1}>
+                    <h1 className={styles.title}>{user.name}</h1>
+                    <section>
+                        <ul>
+                            <li><label>Puntuacion</label><strong>{data.gameScore} </strong></li>
+                            <li><label>Estado</label><strong> {data.estado}</strong></li>
+                        </ul>
+                    </section>
+                </div>
+            </div>)
+        }else {
+
+
+            fetch('http://localhost:3000', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    query: `mutation{
                       createStat(player:"${user.name}",estado:"terminada",gameScore:${parseInt(Math.random() * 200)}){
                         player,
                         estado,
@@ -19,24 +35,25 @@ const Play = () => {
                       }
                                
                 }`
-            }),
-        }).then(res => res.json())
-            .then(res => {
-                let data = res.data.createStat
+                }),
+            }).then(res => res.json())
+                .then(res => {
+                    let data = res.data.createStat
 
-                //setStat([<div><label>Estado</label><p>{data.estado}</p><label>Puntacion</label><p>{data.gameScore}</p></div>])
-                setStat(<div className={styles.price_cards}>
-                            <div className={styles.card_1}>
-                                <h1 className={styles.title}>{user.name}</h1>
-                                <section>
-                                    <ul>
-                                        <li><label>Puntuacion</label><strong>{data.gameScore} </strong></li>
-                                        <li><label>Estado</label><strong> {data.estado}</strong></li>
-                                    </ul>
-                                </section>
-                            </div>
-                        </div>)
-            })
+                    //setStat([<div><label>Estado</label><p>{data.estado}</p><label>Puntacion</label><p>{data.gameScore}</p></div>])
+                    setStat(<div className={styles.price_cards}>
+                        <div className={styles.card_1}>
+                            <h1 className={styles.title}>{user.name}</h1>
+                            <section>
+                                <ul>
+                                    <li><label>Puntuacion</label><strong>{data.gameScore} </strong></li>
+                                    <li><label>Estado</label><strong> {data.estado}</strong></li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>)
+                })
+        }
     }
 
 

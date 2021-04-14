@@ -9,6 +9,10 @@ import styles from './menu.css'
 const Menu = () => {
   const { isLoggedIn, user } = useContext(AuthContext);
   const { path, url } = useRouteMatch();
+  const changeState=()=>{
+
+    sessionStorage.removeItem('state')
+  }
 
   if (!isLoggedIn) return <Redirect to="/sign-in" />;
 
@@ -20,7 +24,7 @@ const Menu = () => {
             <Link to={`${url}/stats`}>Stats</Link>
           </li>
           <li>
-            <Link to={`${url}/play`}>New game</Link>
+            <Link to={`${url}/play`} onClick={changeState}>New game</Link>
           </li>
           <li>
             <Link to={`${url}/history`}>Past games</Link>
