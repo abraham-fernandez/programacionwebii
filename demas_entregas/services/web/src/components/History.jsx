@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import AuthContext from "../AuthContext.js";
 import ProgressBar from "./StatsBar.jsx";
 import {Link, useRouteMatch} from "react-router-dom";
@@ -158,18 +158,31 @@ const History = () => {
         })
             .then(res => res.json())
             .then(res => {
+                if (res.data.pair != null) {
+                    listItems = Object.values(res.data.pair.value).sort((a, b) => b.gameScore - a.gameScore);
+                    //valor cada uno entre maximo
+                    let max = listItems[0].gameScore
+                    listItems.map(e => e.percentage = (e.gameScore / max) * 100)
 
-                listItems = Object.values(res.data.pair.value).sort((a, b) => b.gameScore - a.gameScore);
-                //valor cada uno entre maximo
-                let max = listItems[0].gameScore
-                listItems.map(e => e.percentage =( e.gameScore / max) * 100)
+                    setStats(listItems.map((e, idx) =>
+                        <Link to={'/game/play'} onClick={() => changeState(e)}><ProgressBar key={idx}
+                                                                                            bgcolor={mdColors[idx]}
+                                                                                            player={e.player}
+                                                                                            estado={e.estado}
+                                                                                            score={e.gameScore}
+                                                                                            completed={e.percentage}/></Link>))
+                }else{
+                     window.alert("Problemas de servidor")
 
-                setStats(listItems.map((e,idx)=>
-                    <Link to={'/game/play'} onClick={()=>changeState(e)} ><ProgressBar key={idx} bgcolor={mdColors[idx]} player={e.player} estado={e.estado} score={e.gameScore} completed={e.percentage} /></Link>))
+                }
             });
 
     }
-    getItems()
+
+    useEffect(() => {
+        getItems()
+
+    }, [])
 
 
 

@@ -40,22 +40,28 @@ const Play = () => {
                 }),
             }).then(res => res.json())
                 .then(res => {
-                    let data = res.data.createStat
+                    if (res.data.createStat != null){
+                        let data = res.data.createStat
+
 
                     //setStat([<div><label>Estado</label><p>{data.estado}</p><label>Puntacion</label><p>{data.gameScore}</p></div>])
                     setStat(
-
                         <div className="container">
                             <div className="card">
                                 <div className="card__header">
                                     <h1>Player: {user.name}</h1>
                                     <div>
-                                        <p style={{marginBottom:"0px"}}><strong>Points: </strong>{data.gameScore}</p>
+                                        <p style={{marginBottom: "0px"}}><strong>Points: </strong>{data.gameScore}
+                                        </p>
                                         <p><strong>State: </strong> {data.estado} </p>
                                     </div>
                                 </div>
                             </div>
                         </div>)
+                }else{
+                        window.alert("Problema servidor")
+                    }
+
 
                 })
         }
