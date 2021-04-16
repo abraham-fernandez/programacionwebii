@@ -150,7 +150,7 @@ const Stats = () => {
             .then(res => {
                 if(res.data.pairsTopThree!=null)
                     setTopThree(res.data.pairsTopThree.map(top => <div>
-                        <label>Player:</label> {top.player} --> <label>Score: </label>{top.gameScore}
+                        <label>Player:</label> {top.player}  <label>Score: </label>{top.gameScore}
                     </div>))
 
             })
@@ -197,21 +197,20 @@ const Stats = () => {
     // return <p>{user.name}’s stats</p>;
     return (
         <>
-            <div className="container2">
-                <div>
-                    <h1>
-                        Stats
-                    </h1>
-                  {numGames}
+            <div className="container mt-120">
+                <div  className="stats">
+                    <div>
+                        <h1><i className="fa fa-chart-bar"></i> Stats </h1>
+                        <div>{numGames}</div>
+                    </div>
+                    <div>
+                        <h1><i className="fas fa-award"></i> TOP 3 </h1>
+                        <div>{topThree}</div>
+                    </div>
                 </div>
-
-                <div>
+                <div className="stats__bars">
                     {stats}
                 </div>
-                <h1>
-                    TOP 3
-                </h1>
-                <div>{topThree}</div>
             </div>
         </>)
 

@@ -71,7 +71,7 @@ const resolvers = {
                         let data = JSON.parse(e.value).sort((a, b) => b.gameScore - a.gameScore)
                         top.push({player: data.slice(0, 1)[0].player, gameScore: data.slice(0, 1)[0].gameScore})
                     })
-                    return top.sort((a, b) => b.gameScore - a.gameScore).slice(2, top.length);
+                    return top.sort((a, b) => b.gameScore - a.gameScore).slice(0,3);
                 }
             })
         },
