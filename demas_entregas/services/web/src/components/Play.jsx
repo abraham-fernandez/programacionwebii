@@ -25,7 +25,7 @@ const Play = () => {
         }else {
 
 
-            fetch('http://localhost:3000', {
+            fetch('https://graphql-abraham.glitch.me/', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({

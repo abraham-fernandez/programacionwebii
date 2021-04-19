@@ -119,7 +119,7 @@ const History = () => {
 
         sessionStorage.setItem("state","ocupado")
         sessionStorage.setItem("game",JSON.stringify(game))
-        fetch('http://localhost:3000', {
+        fetch('https://graphql-abraham.glitch.me/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -140,7 +140,7 @@ const History = () => {
 
     const getItems = () => {
         let listItems = []
-        fetch('http://localhost:3000', {
+        fetch('https://graphql-abraham.glitch.me/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
