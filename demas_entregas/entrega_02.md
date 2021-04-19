@@ -10,11 +10,13 @@ La entrega consistirá de:
 - El despliegue de la SPA en S3.
 - El despliegue del servidor en cualquier infraestructura.
 
-El pull request debe hacerse antes de [`21-04-05T18:20:00+02:00`](https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations).
+El pull request debe hacerse antes de [`21-04-19T18:20:00+02:00`](https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations).
 
-El despliegue de la aplicación debe hacerse antes de [`21-03-20T21:00:00+02:00`](https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations).
+El despliegue de la aplicación debe hacerse antes de [`21-04-18T21:00:00+02:00`](https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations).
 
 ## Enunciado
+
+Elige un videojuego. Implementarlo no es parte de esta entrega, pero algunos elementos del ejercicio están relacionados con él. Escribe un mensaje en [el foro](https://campus.uneatlantico.es/mod/forum/discuss.php?d=23452#p49722) mencionando el juego elegido. Dos alumnos no pueden elegir el mismo videojuego. No puede elegirse el [tres en línea](https://es.wikipedia.org/wiki/Tres_en_l%C3%ADnea).
 
 Implementa, utilizando GQL, un servidor que cumpla los siguientes requisitos:
 
@@ -36,8 +38,10 @@ Desarrolla la aplicación disponible en la carpeta `services/web` e intégrala c
 
 Para implementar el ejercicio pueden utilizarse únicamente las siguientes librerías externas:
 
-- En `services/web`: las ya instaladas.
-- En `services/stats_server`: [graphql-yoga](https://github.com/prisma-labs/graphql-yoga).
+- Las ya instaladas en el `package.json`.
+- [graphql-yoga](https://github.com/prisma-labs/graphql-yoga).
+- [uuid](https://www.npmjs.com/package/uuid).
+- [node-fetch](https://www.npmjs.com/package/node-fetch).
 
 En caso de necesitar alguna otra librería externa, consulta al profesor.
 
