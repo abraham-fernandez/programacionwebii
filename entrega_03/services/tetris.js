@@ -1,36 +1,36 @@
-let oldPosition=[];
-let position=[{"y": 0, "x": 0}, {"y": 0, "x": 1}, {"y": 1, "x": 0}, {"y": 1, "x": 1}]
+let oldPosition = [];
+let position = [{"y": 0, "x": 0}, {"y": 0, "x": 1}, {"y": 1, "x": 0}, {"y": 1, "x": 1}]
 const buildBoard = () => {
-    oldPosition=[];
+    oldPosition = [];
     return new Array(12).fill(new Array(6).fill('0'));
 }
 //movemos la pieza
-const move = (board,direction) => {
+const move = (board, direction) => {
 
-    if(oldPosition.length>0){
+    if (oldPosition.length > 0) {
         oldPosition.forEach(position => {
 
             board[position.y][position.x] = "0"
         })
 
-        board= controls(direction,board)
+        board = controls(direction, board)
 
 
-    }else{
+    } else {
 
-        board=  startPiece(board)
+        board = startPiece(board)
     }
 
 
     return board;
 }
-//TODO  cambiar a metodo
+//TODO  controlar limites del tablero
 //colocamos la pieza arriba
-const startPiece=(board)=>{
+const startPiece = (board) => {
     position.forEach(position => {
         board[position.y][position.x] = "1"
     })
-    oldPosition=position
+    oldPosition = position
 
     return board;
 }
@@ -38,8 +38,9 @@ const startPiece=(board)=>{
 const moveDown = (board) => {
 
     oldPosition.forEach(position => {
-       board[position.y+2][position.x] = "1"
-        position.y+=2
+        board[position.y + 2][position.x] = "1"
+
+        position.y += 2
     })
 
     return board
@@ -49,11 +50,16 @@ const moveDown = (board) => {
 const moveRight = (board) => {
 
     oldPosition.forEach(position => {
-        board[position.y][position.x+2] = "1"
+        console.log(position.x)
+        if (position.x <=7) {
+            board[position.y][position.x + 2] = "1"
+            position.x += 2
+        }else{
+            throw new Error("Limite tablero")
+        }
 
-        position.x+=2
     })
-    console.log(oldPosition)
+
     return board
 }
 
@@ -61,26 +67,26 @@ const moveRight = (board) => {
 const moveLeft = (board) => {
 
     oldPosition.forEach(position => {
-        board[position.y][position.x-2] = "1"
-        position.x-=2
+        board[position.y][position.x - 2] = "1"
+        position.x -= 2
     })
     return board
 }
 
-const controls=(direction,board)=>{
+const controls = (direction, board) => {
 
-    switch (direction.toString()){
+    switch (direction.toString()) {
         case "right":
-           return moveRight(board);
+            return moveRight(board);
             break;
         case "left":
-           return moveLeft(board);
+            return moveLeft(board);
             break;
         case "down":
-           return moveDown(board)
+            return moveDown(board)
             break;
         default:
-                throw new Error("Control no permitido")
+            throw new Error("Control no permitido")
     }
 }
 
