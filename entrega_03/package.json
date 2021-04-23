@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha ",
     "start": "node index.js",
     "watch": "PORT=4000 nodemon --inspect ./index.js"
   },
@@ -15,5 +15,9 @@
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "mocha": "^8.3.2",
+    "node-fetch": "^2.6.1"
   }
 }
