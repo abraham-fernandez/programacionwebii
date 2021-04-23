@@ -3,8 +3,6 @@ const tetrisController=require('../services/tetris.js');
 const get = (req, res) => {
 
     const {player}=req.query
-
-    debugger
     const board= tetrisController.buildBoard()
     const match={
         player,
@@ -13,4 +11,11 @@ const get = (req, res) => {
     res.json(match);
 };
 
-module.exports = { get };
+const placePiece=(req,res)=>{
+    const {player,board}=req.body
+
+     const newBoard= tetrisController.move('',board,'')
+    return res.json(newBoard)
+}
+
+module.exports = { get,placePiece };
