@@ -12,10 +12,14 @@ const get = (req, res) => {
 };
 
 const placePiece=(req,res)=>{
-    const {player,board}=req.body
+    const {player,board,direction}=req.body
 
-     const newBoard= tetrisController.move('',board,'')
-    return res.json(newBoard)
+    let newBoard = tetrisController.move(board,direction)
+    const response={
+        player,
+        board:newBoard
+    }
+    return res.json(response)
 }
 
 module.exports = { get,placePiece };
