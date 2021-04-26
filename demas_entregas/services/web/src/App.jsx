@@ -28,9 +28,9 @@ const App = () => {
             <Landing />
           </Route>
           <Route path="/sign-in">
-            <SignIn returnTo="/game" />
+            <SignIn returnTo="/tetrisController" />
           </Route>
-          <Route path="/game">
+          <Route path="/tetrisController">
             <Menu />
           </Route>
           <Route path="/">

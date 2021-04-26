@@ -28,11 +28,11 @@ Implementa, utilizando GQL, un servidor que cumpla los siguientes requisitos:
 
 Desarrolla la aplicación disponible en la carpeta `services/web` e intégrala con el servidor creado, de tal manera que cumpla los siguientes requisitos:
 
-1. Debe contener una vista, `/game/stats`, con estadísticas, obtenidas del servidor.
-1. Debe tener una vista, `/game/history` con la lista de partidas anteriores del usuario, obtenidas del servidor.
-1. Al pulsar en una de las partidas de la lista anterior, debe redirigir al usuario a una tercera vista, `/game/play`, en la que se muestre algún dato de la partida seleccionada.
-1. Mientras el usuario esté viendo los datos de la partida en la vista `/game/play`, ésta debe estar marcada como `en uso` en el servidor. Este dato debe reflejarse en la vista `/game/history`, de tal manera que no sea posible acceder a una partida que esté `en uso`.
-1. Si se accede a la vista `/game/play` a través del enlace con texto `new game` en el compononte `Menu`, se deben mostrar los datos de una partida nueva. Esta partida debe aparecer en `/game/history` a partir de ese momento.
+1. Debe contener una vista, `/tetrisController/stats`, con estadísticas, obtenidas del servidor.
+1. Debe tener una vista, `/tetrisController/history` con la lista de partidas anteriores del usuario, obtenidas del servidor.
+1. Al pulsar en una de las partidas de la lista anterior, debe redirigir al usuario a una tercera vista, `/tetrisController/play`, en la que se muestre algún dato de la partida seleccionada.
+1. Mientras el usuario esté viendo los datos de la partida en la vista `/tetrisController/play`, ésta debe estar marcada como `en uso` en el servidor. Este dato debe reflejarse en la vista `/tetrisController/history`, de tal manera que no sea posible acceder a una partida que esté `en uso`.
+1. Si se accede a la vista `/tetrisController/play` a través del enlace con texto `new tetrisController` en el compononte `Menu`, se deben mostrar los datos de una partida nueva. Esta partida debe aparecer en `/tetrisController/history` a partir de ese momento.
 
 ## Tecnologías
 
@@ -56,5 +56,5 @@ La nota se calculará sumando los puntos obtenidos de las siguientes maneras:
 - Cinco puntos si el ejercicio cumple con el funcionamiento básico, descrito en el enunciado.
 - Hasta un punto y medio en función de la variedad de los datos estadísticos disponibles en el servidor.
 - Hasta un punto y medio en función de la variedad de caracteristicas de GQL utilizadas (contexto, directivas, etc.).
-- Hasta un punto en función de la complejidad de los datos representados en las vista `/game/stats` de la SPA.
+- Hasta un punto en función de la complejidad de los datos representados en las vista `/tetrisController/stats` de la SPA.
 - Hasta un punto en función del aspecto visual de la SPA.
