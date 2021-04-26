@@ -37,6 +37,12 @@ El código de este servidor debe estar en la carpeta `services/game_server`.
 Para implementar el ejercicio pueden utilizarse únicamente las siguientes librerías externas:
 
 - Las ya instaladas en el [`package.json`](services/game_server/package.json).
+- [node-fetch](https://www.npmjs.com/package/node-fetch).
+- [body-parser](https://www.npmjs.com/package/body-parser).
+- [cors](https://www.npmjs.com/package/cors).
+- [nodemon](https://www.npmjs.com/package/nodemon).
+- [eslint](https://www.npmjs.com/package/eslint).
+- [prettier](https://www.npmjs.com/package/prettier).
 
 En caso de necesitar alguna otra librería externa, consulta al profesor.
 
