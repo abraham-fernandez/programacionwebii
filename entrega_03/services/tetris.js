@@ -6,7 +6,9 @@
 
 const figuresPosition=[
     [{"y": 0, "x": 0}, {"y": 0, "x": 1}, {"y": 1, "x": 0}, {"y": 1, "x": 1}],
-    [{"y":2,"x":0},{"y":2,"x":1},{"y":1,"x":1},{"y":0,"x":1}]
+    [{"y":2,"x":0},{"y":2,"x":1},{"y":1,"x":1},{"y":0,"x":1}],
+    [{"y": 0, "x": 0}, {"y": 1, "x": 0}, {"y": 2, "x": 0}, {"y": 3, "x": 0}],
+    [{"y": 0, "x": 1}, {"y": 1, "x": 0}, {"y": 1, "x": 1}, {"y": 1, "x": 2}],
 ]
 
 const buildBoard = () => {
@@ -16,7 +18,7 @@ const buildBoard = () => {
     }
 
     let res = {
-        position:figuresPosition[Math.floor(Math.random() * 2)] ,
+        position:figuresPosition[Math.floor(Math.random() * 4)] ,
         board
     };
 
@@ -25,23 +27,23 @@ const buildBoard = () => {
     return res;
 }
 //movemos la pieza
-const move = (res) => {
+const move = (req) => {
 
-    res.position.forEach(coord => {
-        res.board[coord.y][coord.x] = "0"
+    req.position.forEach(coord => {
+        req.board[coord.y][coord.x] = "0"
     })
 
-    let data = controls(res)
+    let data = controls(req)
 
     return {...data};
 }
-//TODO  controlar limites del tablero
+
 //colocamos la pieza arriba
 const startPiece = (board, position) => {
 
     position.forEach(coord => {
 
-        board[coord.y][coord.x] = "0"
+        board[coord.y][coord.x] = "1"
     })
 
     return board;
