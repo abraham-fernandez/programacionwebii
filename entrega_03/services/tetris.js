@@ -1,92 +1,110 @@
-let oldPosition = [];
-let position = [{"y": 0, "x": 0}, {"y": 0, "x": 1}, {"y": 1, "x": 0}, {"y": 1, "x": 1}]
+//TODO: Hacer test inicio partida
+//TODO: Hacer test moveDown
+//TODO: Hacer test moveRight
+//TODO: Hacer test moveLeft
+//TODO: Hacer test controlChoque
+
+const figuresPosition=[
+    [{"y": 0, "x": 0}, {"y": 0, "x": 1}, {"y": 1, "x": 0}, {"y": 1, "x": 1}],
+    [{"y":2,"x":0},{"y":2,"x":1},{"y":1,"x":1},{"y":0,"x":1}]
+]
+
 const buildBoard = () => {
-    oldPosition = [];
-    return new Array(12).fill(new Array(6).fill('0'));
-}
-//movemos la pieza
-const move = (board, direction) => {
-
-    if (oldPosition.length > 0) {
-        oldPosition.forEach(position => {
-
-            board[position.y][position.x] = "0"
-        })
-
-        board = controls(direction, board)
-
-
-    } else {
-
-        board = startPiece(board)
+    const board = Array(16)
+    for (var i = 0; i < 16; i++) {
+        board[i] = new Array(10).fill('0'); // make each element an array
     }
 
+    let res = {
+        position:figuresPosition[Math.floor(Math.random() * 2)] ,
+        board
+    };
 
-    return board;
+    res.board = startPiece(board, res.position)
+
+    return res;
+}
+//movemos la pieza
+const move = (res) => {
+
+    res.position.forEach(coord => {
+        res.board[coord.y][coord.x] = "0"
+    })
+
+    let data = controls(res)
+
+    return {...data};
 }
 //TODO  controlar limites del tablero
 //colocamos la pieza arriba
-const startPiece = (board) => {
-    position.forEach(position => {
-        board[position.y][position.x] = "1"
+const startPiece = (board, position) => {
+
+    position.forEach(coord => {
+
+        board[coord.y][coord.x] = "0"
     })
-    oldPosition = position
 
     return board;
 }
 //mover pieza hacia abajo
-const moveDown = (board) => {
+const moveDown = (req) => {
 
-    oldPosition.forEach(position => {
-        board[position.y + 2][position.x] = "1"
+    req.position.forEach(coord => {
 
-        position.y += 2
+        req.board[coord.y + 2][coord.x] = "1"
+
+        coord.y += 2
     })
 
-    return board
+
+    return req
 }
 
 //mover pieza hacia derecha
-const moveRight = (board) => {
+const moveRight = (req) => {
 
-    oldPosition.forEach(position => {
-        console.log(position.x)
-        if (position.x <=7) {
-            board[position.y][position.x + 2] = "1"
-            position.x += 2
-        }else{
+    req.position.forEach(coord => {
+
+        if (coord.x <= 7) {
+            req.board[coord.y][coord.x + 2] = "1"
+            coord.x += 2
+        } else {
             throw new Error("Limite tablero")
         }
 
     })
 
-    return board
+    return req
 }
 
 //mover pieza hacia izquierda
-const moveLeft = (board) => {
+const moveLeft = (req) => {
 
-    oldPosition.forEach(position => {
-        board[position.y][position.x - 2] = "1"
-        position.x -= 2
+    req.position.forEach(coord => {
+        if (coord.x >= 1) {
+            req.board[coord.y][coord.x - 2] = "1"
+            coord.x -= 2
+        } else {
+            throw new Error("Limite tablero")
+        }
     })
-    return board
+    return req
 }
 
-const controls = (direction, board) => {
+const controls = (res) => {
 
-    switch (direction.toString()) {
+    switch (res.direction.toString()) {
         case "right":
-            return moveRight(board);
+            return moveRight(res);
             break;
         case "left":
-            return moveLeft(board);
+            return moveLeft(res);
             break;
         case "down":
-            return moveDown(board)
+            return moveDown(res);
             break;
         default:
-            throw new Error("Control no permitido")
+            throw new Error("Control no permitido");
     }
 }
 
