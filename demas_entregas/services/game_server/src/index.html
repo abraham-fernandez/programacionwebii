@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+    </style>
+
+
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<button onclick="iniciar()">Iniciar</button>
+<button onclick="getState('down')">Abajo</button>
+<button onclick="getState('left')">Izquierda</button>
+<button onclick="getState('right')">Derecha</button>
+<script>
+    let position = '';
+    let board = '';
+    let newPiece='';
+    const iniciar = async () => {
+        let data = await fetch(`http://localhost:4000/game/tetris?player=abraham}`)
+            .then((res) => {
+                return res.json()
+            })
+            .then((res) => {
+
+                return res
+            })
+        position = data.position
+        board = data.board
+
+        draw(data)
+    }
+    const draw = (data) => {
+        //canvas
+        const room = document.querySelector("canvas")
+
+        let ctx = room.getContext("2d");
+        let cw = room.width = 500;//the width of the canvas
+        let ch = room.height = 500;//the height of the canvas
+
+        let size = 25;//the size of every cell
+        let rows = 16;//number of rows
+        let cols = 10;//number of columns
+
+        // initiate the cells array
+        let cells = new Array(cols * rows);
+
+
+        // fill the cells array with values
+        for (y = 0; y < 16; y++) {
+            for (x = 0; x < 10; x++) {
+                let index = x + y * cols;
+                let cell = {}
+                cell.x = x * size;
+                cell.y = y * size;
+                cell.value = data.board[y][x];
+                cells[index] = cell;
+            }
+        }
+        //draw every cell in the grid of cells
+        cells.forEach((c, i) => {
+
+            if (c.value === "1") {
+                ctx.fillStyle = "#FF0000";
+            } else {
+                ctx.fillStyle = "white";
+
+            }
+            ctx.fillRect(c.x, c.y, size, size);
+            ctx.beginPath();
+            ctx.strokeRect(c.x, c.y, size, size);
+        })
+    }
+
+
+    const getState = async (direction) => {
+
+        let res = await fetch('http://localhost:4000/game/tetris/actions/placePiece', {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "player": "abrit",
+                "direction": direction,
+                position,
+                board
+            })
+        }).then(res => res.json()).then(res => {
+
+            return res
+        })
+        position = res.position
+        board=res.board
+
+        draw(res)
+
+
+    };
+
+</script>
+</body>
+</html>
