@@ -4,13 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ",
+    "start": "node ./src/index.js",
+    "watch": "PORT=4000 nodemon --inspect ./src/index.js"
   },
   "keywords": [],
   "author": "Gerardo Munguia",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
   },
   "devDependencies": {
     "chai": "^4.3.4",
