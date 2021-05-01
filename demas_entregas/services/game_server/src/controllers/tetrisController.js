@@ -14,12 +14,12 @@ const get = (req, res) => {
 };
 
 const placePiece=(req,res)=>{
+    const currentState=req.body
+
+    let newState = tetris.move(currentState)
 
 
-    let data = tetris.move(req.body)
-
-
-    return res.json(data)
+    return res.json(newState)
 }
 
 module.exports = { get,placePiece };

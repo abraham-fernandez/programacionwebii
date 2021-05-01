@@ -1,14 +1,8 @@
-//TODO: Hacer test inicio partida
-//TODO: Hacer test moveDown
-//TODO: Hacer test moveRight
-//TODO: Hacer test moveLeft
-//TODO: Hacer test controlChoque
-
 const figuresPosition = [
     [{"y": 0, "x": 0}, {"y": 0, "x": 1}, {"y": 1, "x": 0}, {"y": 1, "x": 1}],
     [{"y": 2, "x": 0}, {"y": 2, "x": 1}, {"y": 1, "x": 1}, {"y": 0, "x": 1}],
     [{"y": 0, "x": 0}, {"y": 1, "x": 0}, {"y": 2, "x": 0}, {"y": 3, "x": 0}],
-    [{"y": 0, "x": 1}, {"y": 1, "x": 0}, {"y": 1, "x": 1}, {"y": 1, "x": 2}],
+
 ]
 
 const buildBoard = () => {
@@ -18,7 +12,7 @@ const buildBoard = () => {
     }
 
     let res = {
-        position: figuresPosition[Math.floor(Math.random() * 4)],
+        position: figuresPosition[Math.floor(Math.random() * 3)],
         board,
 
     };
@@ -28,17 +22,14 @@ const buildBoard = () => {
     return res;
 }
 //movemos la pieza
-const move = (req) => {
-    req.position.sort((a, b) => b.y < a.y ? 1 : -1)
-        req.position.forEach(coord => {
-            req.board[coord.y][coord.x] = "0"
-
-        })
+const move = (currentState) => {
+    const {position}=currentState
+    position.sort((a, b) => b.y < a.y ? 1 : -1)
 
 
-    let data = controls(req)
+    let newState = controls(currentState)
 
-    return {...data};
+    return newState;
 }
 
 //colocamos la pieza arriba
@@ -53,68 +44,72 @@ const startPiece = (board, position) => {
 }
 
 //mover pieza hacia abajo
-const moveDown = (req) => {
+const moveDown = (currentState) => {
 
-
-    req.position.forEach(coord => {
-        if(coord.y + 1===16 ||  req.board[coord.y + 1][coord.x] === "1"){
-            req.position=figuresPosition[Math.floor(Math.random() * 4)]
-
-        }else{
-            req.board[coord.y + 1][coord.x] = "1"
+    if (currentState.position.some(coord => coord.y > 14) || currentState.board[currentState.position[3].y + 1][currentState.position[3].x] === '1') {
+        currentState.position = figuresPosition[Math.floor(Math.random() * 3)]
+    } else {
+        currentState.position.forEach(coord => {
+            currentState.board[coord.y][coord.x] = "0"
+        })
+        currentState.position.forEach(coord => {
+            currentState.board[coord.y + 1][coord.x] = "1"
             coord.y += 1
-        }
+        })
+    }
 
-
-
-    })
-
-
-    return req
+    return currentState
 }
 
 //mover pieza hacia derecha
-const moveRight = (req) => {
+const moveRight = (currentState) => {
 
-    req.position.forEach(coord => {
 
-        if (coord.x <= 7) {
-            req.board[coord.y][coord.x + 2] = "1"
-            coord.x += 2
-        } else {
-            throw new Error("Limite tablero")
-        }
-
-    })
-
-    return req
+    if (currentState.position.some(coord => coord.x === 9)) {
+        return currentState;
+    } else if (currentState.board[currentState.position[3].y][currentState.position[3].x + 1] === '1') {
+        currentState.position = figuresPosition[Math.floor(Math.random() * 3)]
+    } else {
+        currentState.position.forEach(coord => {
+            currentState.board[coord.y][coord.x] = "0"
+        })
+        currentState.position.forEach(coord => {
+            currentState.board[coord.y][coord.x + 1] = "1"
+            coord.x += 1
+        })
+    }
+    return currentState
 }
 
 //mover pieza hacia izquierda
-const moveLeft = (req) => {
+const moveLeft = (currentState) => {
 
-    req.position.forEach(coord => {
-        if (coord.x >= 1) {
-            req.board[coord.y][coord.x - 2] = "1"
-            coord.x -= 2
-        } else {
-            throw new Error("Limite tablero")
-        }
-    })
-    return req
+    if (currentState.position.some(coord => coord.x === 0)) {
+        currentState.position = figuresPosition[Math.floor(Math.random() * 3)]
+    }else {
+        currentState.position.forEach(coord => {
+            currentState.board[coord.y][coord.x] = "0"
+        })
+        currentState.position.forEach(coord => {
+            currentState.board[coord.y][coord.x - 1] = "1"
+            coord.x -= 1
+        })
+    }
+
+    return currentState
 }
 
-const controls = (res) => {
+const controls = (currentState) => {
 
-    switch (res.direction.toString()) {
+    switch (currentState.direction.toString()) {
         case "right":
-            return moveRight(res);
+            return moveRight(currentState);
             break;
         case "left":
-            return moveLeft(res);
+            return moveLeft(currentState);
             break;
         case "down":
-            return moveDown(res);
+            return moveDown(currentState);
             break;
         default:
             throw new Error("Control no permitido");
