@@ -27,6 +27,7 @@ const move = (currentState) => {
     position.sort((a, b) => b.y < a.y ? 1 : -1)
 
 
+
     let newState = controls(currentState)
 
     return newState;
@@ -48,6 +49,7 @@ const moveDown = (currentState) => {
 
     if (currentState.position.some(coord => coord.y > 14) || currentState.board[currentState.position[3].y + 1][currentState.position[3].x] === '1') {
         currentState.position = figuresPosition[Math.floor(Math.random() * 3)]
+        currentState.board=deleteRow(currentState.board)
     } else {
         currentState.position.forEach(coord => {
             currentState.board[coord.y][coord.x] = "0"
@@ -57,6 +59,7 @@ const moveDown = (currentState) => {
             coord.y += 1
         })
     }
+
 
     return currentState
 }
@@ -97,6 +100,21 @@ const moveLeft = (currentState) => {
     }
 
     return currentState
+}
+const deleteRow=(board)=>{
+
+    let iter = 0;
+
+    board.forEach(element=>{
+        if(!element.find(cell=>cell==='0')) {
+            board.splice(iter,1)
+            board.unshift( new Array(10).fill('0'))
+        }
+        iter++;
+    })
+
+
+    return board;
 }
 
 const controls = (currentState) => {
