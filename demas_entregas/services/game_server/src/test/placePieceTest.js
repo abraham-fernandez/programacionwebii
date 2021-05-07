@@ -15,7 +15,7 @@ describe("placePiece cuadrado", () => {
                 },
                 body:JSON.stringify({
                     "player":"abrit",
-                    "position" : [{"y": 0, "x": 0}, {"y": 0, "x": 1}, {"y": 1, "x": 0}, {"y": 1, "x": 1}],
+                    "position" : [{"y": 3, "x": 0}, {"y": 3, "x": 1}, {"y": 4, "x": 0}, {"y": 4, "x": 1}],
                     "board": [
                         [
                             "0",
@@ -209,7 +209,8 @@ describe("placePiece cuadrado", () => {
                             "0",
                             "0"
                         ]
-                    ]
+                    ],
+                    "direction":"down"
                 })
             })
                 .then((res) => {
@@ -220,10 +221,10 @@ describe("placePiece cuadrado", () => {
 
                     assert.equal(typeof res,'object')
                     assert.equal(res.board.length,16)
-                    assert.equal(res.board[0][0],1)
-                    assert.equal(res.board[0][1],1)
-                    assert.equal(res.board[1][0],1)
-                    assert.equal(res.board[1][1],1)
+                    assert.equal(res.board[4][0],1)
+                    assert.equal(res.board[4][1],1)
+                    assert.equal(res.board[5][0],1)
+                    assert.equal(res.board[5][1],1)
 
 
                 })

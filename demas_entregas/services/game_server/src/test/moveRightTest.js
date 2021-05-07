@@ -91,7 +91,6 @@ describe("moveRight piece", () => {
             req.board = tableroActual
             req.direction = "right"
             const {board} = move(req)
-            console.log(board)
             expect(tableroexpected).to.deep.equal(board);
 
         })
