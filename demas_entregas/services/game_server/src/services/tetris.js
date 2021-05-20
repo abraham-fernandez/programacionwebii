@@ -26,8 +26,6 @@ const move = (currentState) => {
     const {position}=currentState
     position.sort((a, b) => b.y < a.y ? 1 : -1)
 
-
-
     let newState = controls(currentState)
 
     return newState;

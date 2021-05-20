@@ -59,16 +59,66 @@ router.get("/game/:id", (ctx) => {
   });
 });
 
-router.post("/game/:id/event", (ctx) => {
+router.post("/game/:id/event", async(ctx) => {
   // 1. get current state from Stats server
-  // 2. get next state from Game server
-  // 3. post mutation to Stats server to store next state
-  // 4. return state
+    const{data}=await fetch(`${urlGraph}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            query: `query{
+                        pair(key:"${ctx.request.body.player}",id:"${ctx.params.id}"){
+                               value{
+                                  id,
+                                  player,
+                                  estado,
+                                  gameScore
+                              }
+                        }
+                    }`
+        })
+    }).then(res=>res.json())
+    let {id,player,estado,gameScore}=data.pair.value[0]
+    estado=JSON.parse(estado.replace(/'/gm,'"'))
 
+  // 2. get next state from Game server
+    const {position,board}=await fetch(`${url}/game/tetris/actions/placePiece`,{
+        method: 'POST',
+        headers: {'Accept': 'application/json','Content-Type': 'application/json'},
+        body:JSON.stringify({
+            "player":ctx.request.body.player,
+            "position" : estado.position,
+            "board":estado.board,
+            "direction":ctx.request.body.direction
+        })
+    }).then(res=>res.json());
+  // 3. post mutation to Stats server to store next state
+    const state=JSON.stringify({position:position,board:board}).toString().replace(/"/gm,"'")
+    let newData={};
+    await fetch(`${urlGraph}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            query: `mutation{
+                        changeState(player:"${ctx.request.body.player}",estado:"${state}",id:"${ctx.params.id}"){                           
+                              id,
+                              player,
+                              estado,
+                              gameScore
+                       }
+                          
+                    }`
+        })
+    }).then(res=>res.json()).then(res=>newData=res.data.changeState)
+
+    estado=JSON.parse(newData.estado.replace(/'/gm,'"'))
+
+  // 4. return state
   ctx.response.set("Content-Type", "application/json");
   ctx.body = JSON.stringify({
     id: ctx.params.id,
-    // ...
+      player:ctx.request.body.player,
+      position:estado.position,
+      board:estado.board
   });
 });
 

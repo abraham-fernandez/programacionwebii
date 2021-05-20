@@ -5,7 +5,7 @@ const fetchJson = (...args) => fetch(...args).then(response => response.json());
 
 const typeDefs = `
     type Query {
-        pair(key:ID!, status:String):Pair,
+        pair(key:ID!,id:ID,status:String):Pair,
         pairs(status:String): [Stat]
         pairsTopThree : [Top],
         numGames:Int
@@ -37,7 +37,7 @@ const config = {method: "GET", headers: {"x-application-id": "abraham.fernandez.
 const resolvers = {
     Query: {
         //estadisticas por jugador
-        pair: (_, {key, status}) => {
+        pair: (_, {key,id, status}) => {
             config.method = "GET";
             delete config.body;
             return fetchJson(`${BASE_URL}/pairs/${key}/`, config).then(res => {
@@ -45,7 +45,7 @@ const resolvers = {
                     return {
                         key: res.key,
                         applicationId: res.applicationId,
-                        value: status ? JSON.parse(res.value).filter(stat => stat.estado === status) : JSON.parse(res.value)
+                        value: id ? JSON.parse(res.value).filter(stat => stat.id === id) :  JSON.parse(res.value)
                     }
             })
 
@@ -133,13 +133,13 @@ const resolvers = {
                    if (r.value) {
                        partidas = JSON.parse(r.value)
 
-                       partidas.find(partida => partida.id == args.id).estado = args.estado
+                       partidas.find(partida => partida.id === args.id).estado = args.estado
 
                        config.method = "PUT";
                        config.body = JSON.stringify(partidas)
                        fetchJson(`${BASE_URL}/pairs/${args.player}`, config);
 
-                       return partidas.find(partida => partida.id == args.id)
+                       return partidas.find(partida => partida.id === args.id)
                    }
                }
             });

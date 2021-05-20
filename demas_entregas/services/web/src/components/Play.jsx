@@ -15,7 +15,6 @@ const Play = () => {
             body: '{"player":"abraham.fernandez"}'
 
         }).then(res => res.json()).then(res => {
-            position = res.position
             newBoard = res.board
             id = res.id
             player = res.player
@@ -31,13 +30,10 @@ const Play = () => {
             },
             body: JSON.stringify({
                 "player": player,
-                "position": position,
-                "board": board,
                 "direction": direction
             })
         }).then(res => res.json())
             .then(res => {
-                position = res.position
                 newBoard = res.board
                 id = res.id
                 player = res.player
