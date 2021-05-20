@@ -54,7 +54,9 @@ const resolvers = {
         pairs: (_, {status}) => {
             config.method = "GET";
             delete config.body;
+
             return fetchJson(`${BASE_URL}/pairs/`, config).then(res => {
+
                 if (!res.hasOwnProperty('message'))
                   return  status ? res.map(stat => JSON.parse(stat.value).filter((s) => s.estado === status)).flat() :
                         res.map(stat => JSON.parse(stat.value).map((s) => s)).flat()
@@ -92,33 +94,36 @@ const resolvers = {
         }
     },
     Mutation: {
-        createStat: (_, args) =>
-            //obtener partidas anteriores
-            fetchJson(`${BASE_URL}/pairs/${args.player}/`, config).then(r => {
-                console.log(r)
-               if(!r.hasOwnProperty('message')) {
-                   let partidas = [];
-                   if (r.value !== "{\n    \n}")
-                       partidas = JSON.parse(r.value);
+        createStat: async (_, args) => {  //obtener partidas anteriores
 
-                   config.method = "PUT";
-                   const newPartida = {
-                       id: uuidv4(),
-                       player: args.player,
-                       estado: args.estado,
-                       gameScore: args.gameScore
-                   }
+            return await fetchJson(`${BASE_URL}/pairs/${args.player}/`, config).then(async(r) => {
 
-                   partidas.push(newPartida);
+                if (!r.hasOwnProperty('message')) {
+                    let partidas = [];
+
+                    if (r.value !== "{}") {
+                        partidas = JSON.parse(r.value);
+                    }
+
+                    config.method = "PUT";
+                    const newPartida = {
+                        id: uuidv4(),
+                        player: args.player.toString(),
+                        estado: args.estado.toString(),
+                        gameScore: parseInt(args.gameScore)
+                    }
+
+                    partidas.push(newPartida);
 
 
-                   config.body = JSON.stringify(partidas);
+                    config.body = JSON.stringify(partidas);
 
-                   fetchJson(`${BASE_URL}/pairs/${args.player}`, config);
-                   return newPartida;
-               }
-
-            }),
+                    await fetchJson(`${BASE_URL}/pairs/${args.player}`, config);
+                    return newPartida;
+                }
+            })
+        }
+            ,
         changeState: (_, args) => {
             config.method = "GET";
             delete  config.body
@@ -156,7 +161,7 @@ const server = new GraphQLServer({typeDefs, resolvers});
 
 server.start({
     playground: "/",
-    port: 3000
+    port: process.env.PORT
 });
 
 

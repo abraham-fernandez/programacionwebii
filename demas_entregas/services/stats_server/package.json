@@ -4,7 +4,7 @@
   "description": "A simple Node app built on Express, instantly up and running.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start-graphQl": "PORT=5002 node ./server.js"
   },
   "dependencies": {
     "graphql-yoga": "^1.18.3",

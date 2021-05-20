@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha './src/test/**/*.js' --recursive  --timeout 60000 --exit",
     "start": "node ./src/index.js",
-    "watch": "PORT=4000 nodemon --inspect ./src/index.js"
+    "watch-tetris": "PORT=4000 nodemon  ./src/index.js"
   },
   "keywords": [],
   "author": "Gerardo Munguia",

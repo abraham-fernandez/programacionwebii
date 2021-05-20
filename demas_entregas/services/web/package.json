@@ -11,11 +11,11 @@
   "author": "Gerardo Munguia",
   "license": "ISC",
   "dependencies": {
-    "node-sass": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
+    "sass": "^1.32.13",
     "sass-loader": "^11.0.1"
   },
   "devDependencies": {
