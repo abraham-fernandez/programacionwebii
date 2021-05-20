@@ -1,0 +1,39 @@
+version: "3"
+networks:
+  custom:
+
+services:
+  web:
+      container_name: web
+      build: ./services/web
+      ports:
+        - 8080:80
+      networks:
+        - custom
+      environment:
+        - CONTROLLER_SERVER_URL=localhost:5001
+
+  controller_server:
+      container_name: controller
+      build: ./services/controller_server
+      ports:
+        - 5001:5001
+      networks:
+        - custom
+      environment:
+        - STATS_SERVER_URL=stats:5002
+        - GAME_SERVER_URL=game:4000
+  game_server:
+      container_name: game
+      build: ./services/game_server
+      ports:
+        - 4000:4000
+      networks:
+        - custom
+
+  stats_server:
+    container_name: stats
+    build: ./services/stats_server
+    ports:
+      - 5002:5002
+

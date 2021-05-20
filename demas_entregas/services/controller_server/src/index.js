@@ -7,13 +7,13 @@ const fetch=require('node-fetch')
 const app = new Koa();
 const router = new Router();
 
-const url="http://localhost:4000";
-const urlGraph="http://localhost:5002"
+
+
 
 router.post("/game", async (ctx) => {
 
   //get newgame from tetris
-  const {player,position,board}=await fetch(`${url}/game/tetris?player=${ctx.request.body.player}`).then(res=>res.json());
+  const {player,position,board}=await fetch(`${process.env.GAME_SERVER_URL}/game/tetris?player=${ctx.request.body.player}`).then(res=>res.json());
 
 
   // let state=JSON.stringify({position:position})
@@ -22,7 +22,7 @@ router.post("/game", async (ctx) => {
 
 
   // 2. post mutation to Stats server to store new game
- const{data}=await fetch(`${urlGraph}`, {
+ const{data}=await fetch(`${process.env.STATS_SERVER_URL}`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
@@ -61,7 +61,7 @@ router.get("/game/:id", (ctx) => {
 
 router.post("/game/:id/event", async(ctx) => {
   // 1. get current state from Stats server
-    const{data}=await fetch(`${urlGraph}`, {
+    const{data}=await fetch(`${process.env.STATS_SERVER_URL}`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -81,7 +81,7 @@ router.post("/game/:id/event", async(ctx) => {
     estado=JSON.parse(estado.replace(/'/gm,'"'))
 
   // 2. get next state from Game server
-    const {position,board}=await fetch(`${url}/game/tetris/actions/placePiece`,{
+    const {position,board}=await fetch(`${process.env.GAME_SERVER_URL}/game/tetris/actions/placePiece`,{
         method: 'POST',
         headers: {'Accept': 'application/json','Content-Type': 'application/json'},
         body:JSON.stringify({
@@ -94,7 +94,7 @@ router.post("/game/:id/event", async(ctx) => {
   // 3. post mutation to Stats server to store next state
     const state=JSON.stringify({position:position,board:board}).toString().replace(/"/gm,"'")
     let newData={};
-    await fetch(`${urlGraph}`, {
+    await fetch(`${process.env.STATS_SERVER_URL}`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({

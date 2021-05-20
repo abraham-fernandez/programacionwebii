@@ -9,7 +9,7 @@ const Play = () => {
     const [board, setBoard] = useState({})
 
     const init = () => {
-        fetch('http://localhost:5001/game', {
+        fetch(`${process.env.CONTROLLER_SERVER_URL}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: '{"player":"abraham.fernandez"}'
@@ -22,7 +22,7 @@ const Play = () => {
         })
     }
     const move = (direction) => {
-        fetch(`http://localhost:5001/game/${id}/event`, {
+        fetch(`${process.env.CONTROLLER_SERVER_URL}/game/${id}/event`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
