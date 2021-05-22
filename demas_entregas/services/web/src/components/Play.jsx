@@ -9,7 +9,7 @@ const Play = () => {
     const [board, setBoard] = useState({})
 
     const init = () => {
-        fetch(`${process.env.CONTROLLER_SERVER_URL}`, {
+        fetch(`${process.env.CONTROLLER_SERVER_URL}/game`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: '{"player":"abraham.fernandez"}'

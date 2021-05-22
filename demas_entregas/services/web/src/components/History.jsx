@@ -168,7 +168,7 @@ const History = () => {
                         <Link to={'/game/play'} onClick={() => changeState(e)}><ProgressBar key={idx}
                                                                                             bgcolor={mdColors[idx]}
                                                                                             player={e.player}
-                                                                                            estado={e.estado}
+
                                                                                             score={e.gameScore}
                                                                                             completed={e.percentage}/></Link>))
                 }else{
