@@ -1,7 +1,7 @@
 /* eslint-env node */
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
+const webpack = require("webpack");
 module.exports = {
   mode: "development",
   entry: {
@@ -22,6 +22,7 @@ module.exports = {
       template: path.join(__dirname, "./src/index.html"),
       publicPath: "/",
     }),
+    new webpack.EnvironmentPlugin(["CONTROLLER_SERVER_URL"]),
   ],
   module: {
     rules: [

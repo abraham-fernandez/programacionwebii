@@ -11,7 +11,7 @@ const router = new Router();
 
 
 router.post("/game", async (ctx) => {
-
+    console.log(process.env.GAME_SERVER_URL)
   //get newgame from tetris
   const {player,position,board}=await fetch(`${process.env.GAME_SERVER_URL}/game/tetris?player=${ctx.request.body.player}`).then(res=>res.json());
 

@@ -2,16 +2,19 @@ version: "3"
 networks:
   custom:
 
+
 services:
   web:
-      container_name: web
-      build: ./services/web
-      ports:
-        - 8080:80
-      networks:
-        - custom
-      environment:
-        - CONTROLLER_SERVER_URL=localhost:5001
+    container_name: web
+    build:
+      context: ./services/web
+      # `args` is used to make environment variables visible during the build. See https://docs.docker.com/compose/compose-file/compose-file-v3/#environment.
+      args:
+        - CONTROLLER_SERVER_URL=http://localhost:5001
+    ports:
+      - 8080:80
+    networks:
+      - custom
 
   controller_server:
       container_name: controller
@@ -21,8 +24,8 @@ services:
       networks:
         - custom
       environment:
-        - STATS_SERVER_URL=stats:5002
-        - GAME_SERVER_URL=game:4000
+        - STATS_SERVER_URL=http://stats:5002
+        - GAME_SERVER_URL=http://game:4000
   game_server:
       container_name: game
       build: ./services/game_server
@@ -36,4 +39,6 @@ services:
     build: ./services/stats_server
     ports:
       - 5002:5002
+    networks:
+      - custom
 
