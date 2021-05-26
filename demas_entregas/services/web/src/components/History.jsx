@@ -165,10 +165,10 @@ const History = () => {
                     listItems.map(e => e.percentage = (e.gameScore / max) * 100)
 
                     setStats(listItems.map((e, idx) =>
-                        <Link to={'/game/play'} onClick={() => changeState(e)}><ProgressBar key={idx}
+
+                        <Link  to={{ pathname: '/game/play', state: { idGame: e.id} }} ><ProgressBar key={idx}
                                                                                             bgcolor={mdColors[idx]}
                                                                                             player={e.player}
-
                                                                                             score={e.gameScore}
                                                                                             completed={e.percentage}/></Link>))
                 }else{

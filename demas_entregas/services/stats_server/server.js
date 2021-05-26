@@ -7,6 +7,7 @@ const typeDefs = `
     type Query {
         pair(key:ID!,id:ID,status:String):Pair,
         pairs(status:String): [Stat]
+        pairsById(idGame:ID!): Stat
         pairsTopThree : [Top],
         numGames:Int
     }
@@ -37,16 +38,34 @@ const config = {method: "GET", headers: {"x-application-id": "abraham.fernandez.
 const resolvers = {
     Query: {
         //estadisticas por jugador
-        pair: (_, {key,id, status}) => {
+        pair: (_, {key, id, status}) => {
             config.method = "GET";
             delete config.body;
             return fetchJson(`${BASE_URL}/pairs/${key}/`, config).then(res => {
-                if (!res.hasOwnProperty('message'))
+                if (!res.hasOwnProperty('message')) {
+
                     return {
                         key: res.key,
                         applicationId: res.applicationId,
-                        value: id ? JSON.parse(res.value).filter(stat => stat.id === id) :  JSON.parse(res.value)
+                        value: id ? JSON.parse(res.value).filter(stat => stat.id === id) : JSON.parse(res.value)
                     }
+                }
+            })
+
+        },
+        pairsById: (_, {idGame}) => {
+            config.method = "GET";
+            delete config.body;
+
+            return fetchJson(`${BASE_URL}/pairs/`, config).then(res => {
+
+                if (!res.hasOwnProperty('message'))
+                    return res.map(stats => {
+                            if (stats.value !== "{}") {
+                                return JSON.parse(stats.value).find(stat => stat.id === idGame)
+                            }
+                        }
+                    ).filter(x => x !== undefined).flat()[0]
             })
 
         },
@@ -58,31 +77,31 @@ const resolvers = {
             return fetchJson(`${BASE_URL}/pairs/`, config).then(res => {
 
                 if (!res.hasOwnProperty('message'))
-                  return  status ? res.map(stat => JSON.parse(stat.value).filter((s) => s.estado === status)).flat() :
+                    return  status ? res.map(stat => JSON.parse(stat.value).filter((s) => s.estado === status)).flat() :
                         res.map(stat => JSON.parse(stat.value).map((s) => s)).flat()
             })
 
         },
-        pairsTopThree:(_)=>{
-            config.method="GET"
+        pairsTopThree: (_) => {
+            config.method = "GET"
             delete config.body
-            let top=[];
+            let top = [];
             return fetchJson(`${BASE_URL}/pairs/`, config).then(res => {
                 if (!res.hasOwnProperty('message')) {
                     res.map(e => {
                         let data = JSON.parse(e.value).sort((a, b) => b.gameScore - a.gameScore)
                         top.push({player: data.slice(0, 1)[0].player, gameScore: data.slice(0, 1)[0].gameScore})
                     })
-                    return top.sort((a, b) => b.gameScore - a.gameScore).slice(0,3);
+                    return top.sort((a, b) => b.gameScore - a.gameScore).slice(0, 3);
                 }
             })
         },
-        numGames:(_)=>{
-            config.method="GET"
+        numGames: (_) => {
+            config.method = "GET"
             delete config.body
-            let numGames=0;
+            let numGames = 0;
             return fetchJson(`${BASE_URL}/pairs/`, config).then(res => {
-                if(!res.hasOwnProperty('message')) {
+                if (!res.hasOwnProperty('message')) {
                     res.map(e => {
 
                         numGames += JSON.parse(e.value).length
@@ -96,7 +115,7 @@ const resolvers = {
     Mutation: {
         createStat: async (_, args) => {  //obtener partidas anteriores
 
-            return await fetchJson(`${BASE_URL}/pairs/${args.player}/`, config).then(async(r) => {
+            return await fetchJson(`${BASE_URL}/pairs/${args.player}/`, config).then(async (r) => {
 
                 if (!r.hasOwnProperty('message')) {
                     let partidas = [];
@@ -123,25 +142,25 @@ const resolvers = {
                 }
             })
         }
-            ,
+        ,
         changeState: (_, args) => {
             config.method = "GET";
-            delete  config.body
-           return fetchJson(`${BASE_URL}/pairs/${args.player}/`, config).then(r => {
+            delete config.body
+            return fetchJson(`${BASE_URL}/pairs/${args.player}/`, config).then(r => {
                 let partidas = [];
-               if(!r.hasOwnProperty('message')) {
-                   if (r.value) {
-                       partidas = JSON.parse(r.value)
+                if (!r.hasOwnProperty('message')) {
+                    if (r.value) {
+                        partidas = JSON.parse(r.value)
 
-                       partidas.find(partida => partida.id === args.id).estado = args.estado
+                        partidas.find(partida => partida.id === args.id).estado = args.estado
 
-                       config.method = "PUT";
-                       config.body = JSON.stringify(partidas)
-                       fetchJson(`${BASE_URL}/pairs/${args.player}`, config);
+                        config.method = "PUT";
+                        config.body = JSON.stringify(partidas)
+                        fetchJson(`${BASE_URL}/pairs/${args.player}`, config);
 
-                       return partidas.find(partida => partida.id === args.id)
-                   }
-               }
+                        return partidas.find(partida => partida.id === args.id)
+                    }
+                }
             });
 
         }

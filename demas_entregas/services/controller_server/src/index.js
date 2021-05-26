@@ -48,14 +48,31 @@ router.post("/game", async (ctx) => {
   });
 });
 
-router.get("/game/:id", (ctx) => {
+router.get("/game/:id", async (ctx) => {
   // 1. get current state from Stats server
+    const{data}=await fetch(`${process.env.STATS_SERVER_URL}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            query: `query{
+                        pairsById(idGame:"${ctx.request.params.id}"){
+                               id,
+                               player,
+                               estado
+                        }
+                    }`
+        })
+    }).then(res=>res.json())
+    let {id,player,estado,gameScore}=data.pairsById
+    console.log(estado)
+    estado=JSON.parse(estado.replace(/'/gm,'"'))
   // 2. return state
 
   ctx.response.set("Content-Type", "application/json");
   ctx.body = JSON.stringify({
-    id: ctx.params.id,
-    // ...
+      id: ctx.params.id,
+      board:estado.board,
+      player:player
   });
 });
 

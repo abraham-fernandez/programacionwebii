@@ -1,14 +1,34 @@
-import React, {useContext, useState, useEffect} from "react";
+import React, {useContext, useState, useEffect,} from "react";
 import AuthContext from "../AuthContext";
 import Canvas from './Canvas.jsx'
-
+import { useLocation } from "react-router-dom";
 let position, newBoard, player, id;
 
 const Play = () => {
     const {user} = useContext(AuthContext);
     const [board, setBoard] = useState({})
+    const location = useLocation();
+    let idGame="";
+    if(location.state)
+      idGame=location.state.idGame
+    const getGame=()=>{
+
+        fetch(`${process.env.CONTROLLER_SERVER_URL}/game/${idGame}`, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+
+
+        }).then(res => res.json()).then(res => {
+            newBoard = res.board
+            id = res.id
+            player = res.player
+
+            setBoard(res.board)
+        })
+    }
 
     const init = () => {
+
         fetch(`${process.env.CONTROLLER_SERVER_URL}/game`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -20,6 +40,7 @@ const Play = () => {
             player = res.player
             setBoard(res.board)
         })
+
     }
     const move = (direction) => {
         fetch(`${process.env.CONTROLLER_SERVER_URL}/game/${id}/event`, {
@@ -43,8 +64,16 @@ const Play = () => {
     }
 
     useEffect(() => {
-        init();
-    }, [])
+
+        if(idGame!=""){
+
+            getGame()
+        }else{
+            init();
+
+        }
+
+    }, [idGame])
 
 
     const render = () => {
