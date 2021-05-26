@@ -64,7 +64,7 @@ router.get("/game/:id", async (ctx) => {
         })
     }).then(res=>res.json())
     let {id,player,estado,gameScore}=data.pairsById
-    console.log(estado)
+
     estado=JSON.parse(estado.replace(/'/gm,'"'))
   // 2. return state
 

@@ -10,6 +10,7 @@ services:
       # `args` is used to make environment variables visible during the build. See https://docs.docker.com/compose/compose-file/compose-file-v3/#environment.
       args:
         - CONTROLLER_SERVER_URL=http://localhost:5001
+        - STATS_SERVER_URL=http://localhost:5002
     ports:
       - 8080:80
     networks:

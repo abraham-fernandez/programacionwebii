@@ -116,7 +116,7 @@ const Stats = () => {
     const [numGames, setnumGames] = useState()
 
     const getNumGames = () => {
-        fetch('https://graphql-abraham.glitch.me/', {
+        fetch(`${process.env.STATS_SERVER_URL}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -134,7 +134,7 @@ const Stats = () => {
     }
 
     const getTopThree = () => {
-        fetch('https://graphql-abraham.glitch.me/', {
+        fetch(`${process.env.STATS_SERVER_URL}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -148,10 +148,11 @@ const Stats = () => {
         })
             .then(res => res.json())
             .then(res => {
-                if(res.data.pairsTopThree!=null)
+                //if(res.data.pairsTopThree!=null) {
                     setTopThree(res.data.pairsTopThree.map(top => <div>
-                        <label>Player:</label> {top.player}  <label>Score: </label>{top.gameScore}
+                        <label>Player:</label> {top.player} <label>Score: </label>{top.gameScore}
                     </div>))
+                //}
 
             })
 
@@ -159,7 +160,7 @@ const Stats = () => {
 
     const getItems = () => {
         let listItems = []
-        fetch('https://graphql-abraham.glitch.me/', {
+        fetch(`${process.env.STATS_SERVER_URL}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -174,15 +175,17 @@ const Stats = () => {
         })
             .then(res => res.json())
             .then(res => {
-                if(res.data.pairs!=null)
+                if(res.data.pairs!=null) {
 
                     listItems = Object.values(res.data.pairs).sort((a, b) => b.gameScore - a.gameScore);
                     //valor cada uno entre maximo
+                    console.log(listItems)
                     let max = listItems[0].gameScore
                     listItems.map(e => e.percentage = (e.gameScore / max) * 100)
                     setStats(listItems.map((e, idx) => <ProgressBar key={idx} bgcolor={mdColors[idx]} player={e.player}
                                                                     estado={e.estado} score={e.gameScore}
                                                                     completed={e.percentage}/>))
+                }
 
             })
     }

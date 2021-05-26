@@ -22,7 +22,7 @@ module.exports = {
       template: path.join(__dirname, "./src/index.html"),
       publicPath: "/",
     }),
-    new webpack.EnvironmentPlugin(["CONTROLLER_SERVER_URL"]),
+    new webpack.EnvironmentPlugin(["CONTROLLER_SERVER_URL","STATS_SERVER_URL"]),
   ],
   module: {
     rules: [
